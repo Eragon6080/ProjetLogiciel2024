@@ -1,0 +1,48 @@
+\documentclass[numbering=fraction]{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french, english]{babel}
+\usepackage{blindtext}
+\usepackage{tikzsymbols}
+
+
+\usetheme[progressbar=frametitle]{metropolis}
+
+%Define colors
+\definecolor{wuppergreen}{RGB}{85, 171, 38}
+\definecolor{background}{RGB}{255,255,255}
+
+%Adding logo to title page
+\titlegraphic{\raggedleft \includegraphics[width=3cm]{UNamur.png}}
+
+%Adjust color theme
+\setbeamercolor{frametitle}{bg=wuppergreen}
+\setbeamercolor{title separator}{fg=wuppergreen}
+\setbeamercolor{footline}{fg=gray}
+\setbeamercolor{progress bar}{fg=black}
+
+%Adding footer
+\setbeamertemplate{frame footer}{\insertshortauthor~(\insertshortinstitute)}
+
+%Set parameters for title page
+\title{PIMS : Sprint Review 1}
+\author[PIMS]{Luis Dierick \and ...}
+\institute{Université de Namur}
+\date{\today{}}
+
+\begin{document}
+
+\begin{frame}[plain]{}
+    \maketitle
+\end{frame}
+
+\begin{frame}{Table des matières}
+    \tableofcontents
+\end{frame}
+
+\begin{frame}{Hello world}
+
+\end{frame}
+
+\end{document}
