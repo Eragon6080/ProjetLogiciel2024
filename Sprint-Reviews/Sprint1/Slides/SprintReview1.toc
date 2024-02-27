@@ -1,1 +1,6 @@
-\babel@toc {english}{}\relax 
+\babel@toc {french}{}\relax 
+\beamer@sectionintoc {1}{Enquête contextuelle}{3}{0}{1}
+\beamer@subsectionintoc {1}{1}{Interview SIU}{4}{0}{1}
+\beamer@subsectionintoc {1}{2}{Interview vice-doyenne}{5}{0}{1}
+\beamer@sectionintoc {2}{Product backlog}{6}{0}{2}
+\beamer@sectionintoc {3}{Plannification Sprint 2}{8}{0}{3}

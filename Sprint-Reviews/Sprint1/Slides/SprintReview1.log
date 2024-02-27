@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.2.23)  24 FEB 2024 14:51
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.2.23)  27 FEB 2024 14:24
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -553,15 +553,10 @@ Package babel Info: Making ? an active character on input line 433.
 \leftmarginFB=\dimen290
 \parindentFFN=\dimen291
 \FBfnindent=\dimen292
-) (/usr/share/texlive/texmf-dist/tex/generic/babel-english/english.ldf
-Language: english 2017/06/06 v3.3r English support from the babel system
-Package babel Info: Hyphen rules for 'canadian' set to \l@english
-(babel)             (\language0). Reported on input line 102.
-Package babel Info: Hyphen rules for 'australian' set to \l@ukenglish
-(babel)             (\language19). Reported on input line 105.
-Package babel Info: Hyphen rules for 'newzealand' set to \l@ukenglish
-(babel)             (\language19). Reported on input line 108.
-)) (/usr/share/texlive/texmf-dist/tex/latex/carlisle/scalefnt.sty) (/usr/share/texlive/texmf-dist/tex/latex/blindtext/blindtext.sty
+)) (/usr/share/texlive/texmf-dist/tex/latex/carlisle/scalefnt.sty)
+Package french.ldf Info: No list customisation for the beamer class,
+(french.ldf)             reported on input line 6.
+ (/usr/share/texlive/texmf-dist/tex/latex/blindtext/blindtext.sty
 Package: blindtext 2012/01/06 V2.0 blindtext-Package
  (/usr/share/texlive/texmf-dist/tex/latex/tools/xspace.sty
 Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
@@ -954,7 +949,7 @@ Dictionary: translator-theorem-dictionary, Language: English
 LaTeX Info: Redefining \degres on input line 34.
 LaTeX Info: Redefining \up on input line 34.
  (./SprintReview1.nav)
-<UNamur.png, id=13, 362.35374pt x 401.5pt>
+<UNamur.png, id=33, 362.35374pt x 401.5pt>
 File: UNamur.png Graphic file (type png)
 <use UNamur.png>
 Package pdftex.def Info: UNamur.png  used on input line 38.
@@ -971,7 +966,35 @@ Overfull \vbox (15.63992pt too high) detected at line 38
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map} <./UNamur.png>] (./SprintReview1.toc) [2
 
-] [3
+]
+LaTeX Font Info:    Trying to load font information for U+msa on input line 44.
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 44.
+ (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+LaTeX Font Info:    Trying to load font information for OT1+mathkerncmss on input line 44.
+ (/usr/share/texlive/texmf-dist/tex/latex/sansmathaccent/ot1mathkerncmss.fd
+File: ot1mathkerncmss.fd 2020/01/31 Fontinst v1.933 font definitions for OT1/mathkerncmss.
+) [3
+
+]
+LaTeX Font Info:    Trying to load font information for TS1+cmss on input line 52.
+ (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmss.fd
+File: ts1cmss.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+) [4
+
+] [5
+
+] [6
+
+] [7
+
+] [8
+
+] [9
 
 ]
 \tf@nav=\write6
@@ -985,21 +1008,21 @@ Overfull \vbox (15.63992pt too high) detected at line 38
 
  (./SprintReview1.aux)
 Package rerunfilecheck Info: File `SprintReview1.out' has not changed.
-(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
+(rerunfilecheck)             Checksum: F1FCDA11D74F41D0112B25F8A42BC469;729.
  ) 
 Here is how much of TeX's memory you used:
- 28925 strings out of 478287
- 594218 string characters out of 5849289
- 883687 words of memory out of 5000000
- 46542 multiletter control sequences out of 15000+600000
- 476786 words of font info for 39 fonts, out of 8000000 for 9000
+ 29133 strings out of 478287
+ 599490 string characters out of 5849289
+ 884254 words of memory out of 5000000
+ 46711 multiletter control sequences out of 15000+600000
+ 482669 words of font info for 60 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 128i,13n,122p,1935b,745s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texmf/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx1440.pfb>
-Output written on SprintReview1.pdf (3 pages, 98286 bytes).
+ 128i,13n,122p,1935b,760s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-ts1.enc}{/usr/share/texmf/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/share/texmf/fonts/type1/public/cm-super/sfss0800.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfss1095.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx1200.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfsx1440.pfb>
+Output written on SprintReview1.pdf (9 pages, 121601 bytes).
 PDF statistics:
- 59 PDF objects out of 1000 (max. 8388607)
- 37 compressed objects within 1 object stream
- 7 named destinations out of 1000 (max. 500000)
- 48 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 131 PDF objects out of 1000 (max. 8388607)
+ 100 compressed objects within 1 object stream
+ 24 named destinations out of 1000 (max. 500000)
+ 88 words of extra memory for PDF output out of 10000 (max. 10000000)
 
