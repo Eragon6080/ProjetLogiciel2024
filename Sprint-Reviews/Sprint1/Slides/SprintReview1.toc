@@ -2,5 +2,10 @@
 \beamer@sectionintoc {1}{Enquête contextuelle}{3}{0}{1}
 \beamer@subsectionintoc {1}{1}{Interview SIU}{4}{0}{1}
 \beamer@subsectionintoc {1}{2}{Interview vice-doyenne}{5}{0}{1}
-\beamer@sectionintoc {2}{Product backlog}{6}{0}{2}
-\beamer@sectionintoc {3}{Plannification Sprint 2}{8}{0}{3}
+\beamer@subsectionintoc {1}{3}{Document de Vicent Englebert}{6}{0}{1}
+\beamer@sectionintoc {2}{Product backlog}{7}{0}{2}
+\beamer@sectionintoc {3}{Moodle}{9}{0}{3}
+\beamer@subsectionintoc {3}{1}{Moodle : manière de l'utiliser}{10}{0}{3}
+\beamer@subsectionintoc {3}{2}{Plugin existant à utiliser}{11}{0}{3}
+\beamer@subsectionintoc {3}{3}{Question : Comment utiliser le plug-in}{12}{0}{3}
+\beamer@sectionintoc {4}{Plannification Sprint 2}{13}{0}{4}

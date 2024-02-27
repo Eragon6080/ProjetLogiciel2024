@@ -27,9 +27,9 @@
 
 %Set parameters for title page
 \title{PIMS : Sprint Review 1}
-\author[PIMS]{Luis Dierick \and ...}
+\author[PIMS]{Luis Dierick \and Gaillard Matthys}
 \institute{Université de Namur}
-\date{\today{}}
+\date{\today}
 
 \begin{document}
 
@@ -47,11 +47,16 @@
 \begin{frame}{SIU}
     \begin{itemize}
         \item Solution sous forme de plugin Moodle
-        \item 
+        \begin{itemize}
+            \item Incorporation totale sur la plateforme déjà existante
+            \item Technologie basée sur php et javascript (solution assez simple à mettre en place)
+            \item Back-end à écrire en arrière pour concevoir la logique algorithmique derrière.
+        \end{itemize}
     \end{itemize}
 \end{frame}
 
 \subsection{Interview vice-doyenne}
+
 
 \begin{frame}{Vice-doyenne}
 \begin{itemize}
@@ -60,19 +65,70 @@
     \item 
 \end{itemize}
 \end{frame}
+\subsection{Document de Vicent Englebert}
+\begin{frame}
+    \frametitle{Workflow de désiré : Vicent Englebert}
+    \begin{enumerate}
+        \item Mise à disposition des sujets.
+        \item Demande aux étudiants de choisir et de valider un sujet.
+        \item Attribution des sujets et validation de la part du professeur référent.
+        \item Suivi des étudiants lors des différents délivrables avec envoi de mail si nécessaire.
+        \item Archivage des choix et des attributions.
+    \end{enumerate}
+
+
+\end{frame}
 
 \section{Product backlog}
 
 \begin{frame}{Product backlog actuel}
 
 \end{frame}
+\section{Moodle}
+\subsection{Moodle : manière de l'utiliser}
+\begin{frame}
+    \frametitle{Moodle : Idée}
+    \begin{itemize}
+        \item Plateforme communiquant avec une APi + api + plugin moodle.
+        \item 100\% intégré à la plateforme existante.
+        \item Utilisation d'un plugin dont la nouvelle plateforme se servirait comme base de communication. Le plugin
+        ne servirait qu'à utiliser d'autres services déjà existant dans Moodle
+    \end{itemize}   
+    \begin{enumerate}
+        \item Utilisation systématique de l'api de moodle pour avoir accès aux différentes fonctionnalités.
+        \item Utilisation des requêtes https pour communiquer avec la plateforme.
+    \end{enumerate}
 
+\end{frame}
+\subsection{Plugin existant à utiliser}
+\begin{frame}{Liste des plugins}
+    \begin{enumerate}
+     \item Plugin des mails
+     \item Plannification de l'agenda.
+     \item Authentification
+     \item Accès à une base de données déjà intégrée.
+     \item Gestion des cours.
+     \item Dépôt de fichiers
+    \end{enumerate}
+\end{frame}
+\subsection{Question : Comment utiliser le plug-in}
+\begin{frame}
+    \frametitle{Question : Comment utiliser le plug-in}
+    \begin{enumerate}
+        \item API + plugin moodle + plateforme autonome. L'api servirait de communication entre la plateforme et le plugin.
+        \item Plugin moodle + plateforme. La plateforme sert d'administration et le plugin va chercher les informations directement dans la base de données, tables supplémentaires dans la BD déjà existantes? et moodle gère la gestion du reste.
+        \begin{enumerate}
+            \item Le professeur/responsable se réserve le droit de modifier les sujets s'ils le désirent.
+        \end{enumerate}
+    \end{enumerate}
+\end{frame}
 \section{Plannification Sprint 2}
 
 \begin{frame}{}
     \begin{itemize}
-        \item Catalogue des fonctionnalités
-        \item Finaliser le backlog (Poker Planning)
+        \item Liste des priorités à définir clairement.
+        \item Finaliser le backlog (Poker Planning).
+        \item Base de données à part ou modification de celle déjà exitante?
     \end{itemize}
 \end{frame}
 
