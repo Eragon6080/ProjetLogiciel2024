@@ -1,6 +1,5 @@
 *.docx
 
-# latex 
 # latex
 *.log
 *.fls
@@ -10,3 +9,6 @@
 *.bbl
 *.blg
 *.toc
+*.nav
+*.out
+*.snm
