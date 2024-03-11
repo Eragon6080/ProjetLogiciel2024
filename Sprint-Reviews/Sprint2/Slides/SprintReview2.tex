@@ -5,7 +5,9 @@
 \usepackage[french]{babel}
 \usepackage{blindtext}
 \usepackage{tikzsymbols}
-
+\usepackage{graphicx}
+\usepackage{wrapfig}
+\usepackage{bookman}
 
 \usetheme[progressbar=frametitle]{metropolis}
 
@@ -21,6 +23,9 @@
 \setbeamercolor{title separator}{fg=wuppergreen}
 \setbeamercolor{footline}{fg=gray}
 \setbeamercolor{progress bar}{fg=black}
+
+\graphicspath{ {./images/}}
+
 
 %Adding footer
 \setbeamertemplate{frame footer}{\insertshortauthor~(\insertshortinstitute)}
@@ -39,6 +44,51 @@
 
 \begin{frame}{Table des matières}
     \tableofcontents
+\end{frame}
+\section{Rappel et objectifs}
+\begin{frame}{Rappel et objectifs}
+    \begin{enumerate}
+        \item Objectif : Développement d'une plateforme de gestion des mémoires à l'aide de moodle.
+        \item Elément à produire lors de ce sprint
+        \begin{enumerate}
+            \item Définition des rôles.
+            \item Création d'un dictionnaire des défintions des termes.
+            \item Mockups de l'interface de la plateforme.
+        \end{enumerate}
+    \end{enumerate}
+\end{frame}
+\section{Rôles}
+\begin{frame}{Rôles}
+    \begin{enumerate}
+        \item \textbf{\textit{Définitions}} de 4 rôles
+        \begin{enumerate}
+            \item \textbf{Administrateur} : Gestion de la plateforme.
+            \item \textbf{Professeur} : Gestion du cours. Définition des modalités.
+            \item \textbf{Etudiant} : Choisi le sujet rend des délivrables.
+            \item \textbf{Superviseur} : Encadrement des étudiants dont il est le référent.
+        \end{enumerate}
+    \end{enumerate}
+\end{frame}
+\section{Dictionnaire}
+\begin{frame}{Dictionnaire}
+    \begin{columns}
+        \begin{column}{0.75\textwidth}
+            \begin{itemize}
+                \item Défintion des termes utilisés dans le projet.
+                \item But : Avoir une compréhension commune des termes utilisés.
+                \item Exemple :
+                \item \textbf{Crédit} : Pondération du cours sur une année académique.
+            \end{itemize}
+        \end{column}
+        \begin{column}{0.25\textwidth}
+            \begin{figure}
+                \centering
+                \includegraphics[width=2cm]{1.png}
+                \caption{Lexique}
+            \end{figure}
+
+        \end{column}
+    \end{columns}
 \end{frame}
 
 
