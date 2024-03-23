@@ -39,7 +39,7 @@ CREATE TABLE Sujet(
   idSujet INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   titre TEXT NOT NULL,
   descriptif TEXT NOT NULL,
-  fichier BYTEA,
+  fichier TEXT, --  localisation du fichier de la proposition de sujet
   idPeriode INT NOT NULL,
   idProf INT NOT NULL,
   FOREIGN KEY (idPeriode) REFERENCES Periode(idPeriode),
@@ -47,14 +47,14 @@ CREATE TABLE Sujet(
 
 );
 CREATE TABLE UE(
-  idUE INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY, -- matricule de l'UE
+  idue TEXT PRIMARY KEY, -- matricule de l'UE
   nom TEXT NOT NULL,
   idProf INT NOT NULL,
   FOREIGN KEY (idProf) REFERENCES Professeur(idProf)
 );
 CREATE TABLE Cours( -- re
   idCours INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  idUE INT NOT NULL,
+  idue TEXT NOT NULL,
   nom TEXT NOT NULL,
   FOREIGN KEY (idUE) REFERENCES UE(idUE)
 );
@@ -96,12 +96,12 @@ INSERT INTO Professeur (specialite, idPersonne, idPeriode)
 INSERT INTO Sujet (titre, descriptif, fichier, idPeriode, idProf)
   VALUES ('La reproduction des insectes', 'Les insectes sont des animaux ovipares', NULL, 1, 1),
         ('L IA', 'L intelligence artificelle est un système informatique capable d apprendre par lui-même', NULL, 2, 2);
-INSERT INTO UE (nom, idProf)
-  VALUES ('Introduction à la démarche scientifique', 1),
-        ('Mémoire', 2);
+INSERT INTO UE (idue,nom, idProf)
+  VALUES ('INFOB331','Introduction à la démarche scientifique', 1),
+        ('INFOMA451','Mémoire', 2);
 INSERT INTO Cours (idUE, nom)
-  VALUES (1, 'Introduction à la démarche scientifique'),
-        (2, 'Mémoire');
+  VALUES ('INFOB331', 'Introduction à la démarche scientifique'),
+        ('INFOMA451', 'Mémoire');
 INSERT INTO ETUDIANT (bloc, idPersonne, idSujet)
   VALUES (1, 1, 1),
         (2, 2, 2),
