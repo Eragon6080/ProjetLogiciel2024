@@ -1,0 +1,4 @@
+dist/
+.jenkins
+deploy/spinnaker/
+/local-dev/PreConfig.js
