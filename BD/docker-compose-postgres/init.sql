@@ -15,8 +15,12 @@ CREATE TABLE Personne(
   nom TEXT NOT NULL,
   prenom TEXT NOT NULL,
   mail TEXT NOT NULL UNIQUE CHECK (mail ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'),
-  motDePasse TEXT NOT NULL CHECK (length(motDePasse) >= 8),
-  rolePersonne TEXT NOT NULL CHECK(rolePersonne in ('etudiant', 'prof', 'admin','superviseur'))
+  password TEXT NOT NULL CHECK (length(motDePasse) >= 8),
+  role TEXT NOT NULL CHECK(rolePersonne in ('etudiant', 'prof', 'admin','superviseur')),
+  last_login TEXT DEFAULT NULL,
+  is_superuser BOOLEAN DEFAULT FALSE,
+  is_staff BOOLEAN DEFAULT True,
+  is_active BOOLEAN DEFAULT True,
 );
 CREATE TABLE Periode(
   idPeriode INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -78,14 +82,14 @@ CREATE TABLE Inscription(
 
 -- add insertion data
 INSERT INTO Personne (nom, prenom, mail,motDePasse, rolePersonne)
-  VALUES ('Doe', 'John', 'john.doe@gmail.com','Valmeinier23.', 'etudiant'),
-        ('Doe', 'Jane', 'jane.doe@gmail.com','Valmeinier23.','etudiant'),
-        ('Doe', 'Rick','ricke.doe@gmail.com','Valmeinier23.','etudiant'),
-        ('Doe', 'Rudolf','rudolf.doe@gmail.com','Valmeinier23.','etudiant'),
-        ('Doe', 'Jack', 'jack.doe@gmail.com','Valmeinier23.','prof'),
-        ('Doe', 'Jill', 'jill.doe@gmail.com','Valmeinier23.','prof'),
-        ('Doe', 'James', 'james.doe@gmail.com','Valmeinier23.','admin'),
-        ('Doe', 'Jenny', 'jenny.doe@gmail.com','Valmeinier23.','superviseur');
+  VALUES ('Doe', 'John', 'john.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=', 'etudiant'),
+        ('Doe', 'Jane', 'jane.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','etudiant'),
+        ('Doe', 'Rick','ricke.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','etudiant'),
+        ('Doe', 'Rudolf','rudolf.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','etudiant'),
+        ('Doe', 'Jack', 'jack.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','prof'),
+        ('Doe', 'Jill', 'jill.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','prof'),
+        ('Doe', 'James', 'james.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','admin'),
+        ('Doe', 'Jenny', 'jenny.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','superviseur');
 INSERT INTO Periode (annee, delaiPremierePartie, delaiDeuxiemePartie, delaiTroisiemePartie, delaiFinal)
   VALUES (EXTRACT(YEAR FROM TIMESTAMP '2024-01-01'), '2024-02-02', '2024-03-12', '2024-04-28', '2022-05-27'),
         (EXTRACT(YEAR FROM TIMESTAMP '2024-01-01'), '2024-02-02', '2024-03-12', '2024-04-28', '2022-05-27');
