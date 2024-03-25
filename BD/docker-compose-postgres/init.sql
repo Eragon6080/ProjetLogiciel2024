@@ -42,10 +42,11 @@ CREATE TABLE Professeur(
 CREATE TABLE Sujet(
   idSujet INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   titre TEXT NOT NULL,
-  descriptif TEXT NOT NULL,
+  descriptif TEXT NOT NULL DEFAULT 'NULL',
+  destination TEXT NOT NULL DEFAULT 'NULL',
   fichier TEXT, --  localisation du fichier de la proposition de sujet
-  idPeriode INT NOT NULL,
-  idProf INT NOT NULL,
+  idPeriode INT NOT NULL DEFAULT 1,
+  idProf INT NOT NULL DEFAULT 1,
   FOREIGN KEY (idPeriode) REFERENCES Periode(idPeriode),
   FOREIGN KEY (idProf) REFERENCES Professeur(idProf)
 
