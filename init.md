@@ -2,9 +2,9 @@
 
 ## Base de données
 
-Au préalable, il faut avoir télécharger l'application docker dekstop ou alors, faire en sorte que docker soit installé localement sur la machine.\newline
+Au préalable, il faut avoir télécharger l'application docker dekstop ou alors, faire en sorte que docker soit [installé](https://www.docker.com/products/docker-desktop/) localement sur la machine.
 
-Pour commencer, il faut initialiser le conteneur docker se trouvant dans le répertoire BD. Une fois initialisé, le conteneur est prévu pour être écouté sur le port 5432. L'image provient d'un dépot git \url{htttps://github.com}.\newline
+Pour commencer, il faut initialiser le conteneur docker se trouvant dans le répertoire BD. Une fois initialisé, le conteneur est prévu pour être écouté sur le port 5432. L'image provient d'un dépot [git postgresql](https://github.com/docker-library/postgres). Il contient l'image officiel.
 
 L'initialisation début par taper **docker compose**, il initialisera la base de données sous format postgresql. Si après l'allumage du conteneur, la base de données est vide, il suffit d'utiliser l'extension de visual studio code pour les bases de données postgresql et de lancer le script. Si on travaille avec pycharm, il suffit d'utiliser l'extension bd de l'IDE pour que cela fonctionne.
 
