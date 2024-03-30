@@ -10,22 +10,14 @@ INSERT INTO test (name, archived)
   VALUES ('test row 1', true),
   ('test row 2', false);
 */
--- function for checking
-    CREATE OR REPLACE FUNCTION check_role_content(json_content JSON) RETURNS BOOLEAN AS $$
-DECLARE
-  role_value jsonb;
-BEGIN
-  role_value := json_content -> 'role';
-  RETURN role_value ? 'superviseur' OR role_value ? 'professeur' OR role_value ? 'etudiant' OR role_value ? 'admin';
-END;
-$$ LANGUAGE plpgsql;
+
 CREATE TABLE Personne(
   idPersonne INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   nom TEXT NOT NULL,
   prenom TEXT NOT NULL,
   mail TEXT NOT NULL UNIQUE CHECK (mail ~* '^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$'),
   password TEXT NOT NULL CHECK (length(password) >= 8),
-  role JSON NOT NULL CHECK (jsonb_typeof(role::jsonb -> 'role') = 'array' AND jsonb_exists(role::jsonb, 'role') and check_role_content(role)),
+  role TEXT NOT NULL,
   last_login TEXT DEFAULT NULL,
   is_superuser BOOLEAN DEFAULT FALSE,
   is_staff BOOLEAN DEFAULT True,
@@ -112,7 +104,7 @@ INSERT INTO Personne (nom, prenom, mail,password, role)
         ('Doe', 'Rick','ricke.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role" : ["etudiant"]}'),
         ('Doe', 'Rudolf','rudolf.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role" : ["etudiant"]}'),
         ('Doe', 'Jack', 'jack.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role" : ["professeur","superviseur"]}'),
-        ('Doe', 'Jill', 'jill.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=', '{"role" : ["professeur"]}'),
+        ('Doe', 'Jill', 'jill.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=',' {"role" : ["professeur"]}'),
         ('Doe', 'James', 'james.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=', '{"role" : ["admin"]}'),
         ('Doe', 'Jenny', 'jenny.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role": ["superviseur"]}');
 INSERT INTO Periode (annee)
