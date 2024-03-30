@@ -57,19 +57,7 @@ CREATE TABLE Professeur(
   FOREIGN KEY (idPersonne) REFERENCES Personne(idPersonne),
   FOREIGN KEY (idPeriode) REFERENCES Periode(idPeriode)
 );
-CREATE TABLE Sujet(
-  idSujet INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  titre TEXT NOT NULL,
-  descriptif TEXT NOT NULL DEFAULT 'NULL',
-  destination TEXT NOT NULL DEFAULT 'NULL',
-  estPris BOOLEAN NOT NULL DEFAULT FALSE,
-  fichier TEXT, --  localisation du fichier de la proposition de sujet
-  idPeriode INT NOT NULL DEFAULT 1,
-  idProf INT NOT NULL DEFAULT 1,
-  FOREIGN KEY (idPeriode) REFERENCES Periode(idPeriode),
-  FOREIGN KEY (idProf) REFERENCES Professeur(idProf)
 
-);
 CREATE TABLE UE(
   idue TEXT PRIMARY KEY, -- matricule de l'UE
   nom TEXT NOT NULL,
@@ -81,6 +69,22 @@ CREATE TABLE Cours(
   idue TEXT NOT NULL,
   nom TEXT NOT NULL,
   FOREIGN KEY (idUE) REFERENCES UE(idUE)
+);
+
+CREATE TABLE Sujet(
+  idSujet INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  titre TEXT NOT NULL,
+  descriptif TEXT NOT NULL DEFAULT 'NULL',
+  destination TEXT NOT NULL DEFAULT 'NULL',
+  estPris BOOLEAN NOT NULL DEFAULT FALSE,
+  fichier TEXT, --  localisation du fichier de la proposition de sujet
+  idPeriode INT NOT NULL DEFAULT 1,
+  idProf INT NOT NULL DEFAULT 1,
+  idCours INT NOT NULL DEFAULT 1,
+  FOREIGN KEY (idPeriode) REFERENCES Periode(idPeriode),
+  FOREIGN KEY (idProf) REFERENCES Professeur(idProf),
+  FOREIGN KEY (idCours) REFERENCES Cours(idCours)
+
 );
 CREATE TABLE Etudiant(
   idEtudiant INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -124,15 +128,16 @@ INSERT INTO Etape (delai, description, idPeriode, idDelivrable)
 INSERT INTO Professeur (specialite, idPersonne, idPeriode)
   VALUES ('IA', 3, 1),
         ('ML', 4, 2);
-INSERT INTO Sujet (titre, descriptif, fichier, idPeriode, idProf,estPris)
-  VALUES ('La reproduction des insectes', 'Les insectes sont des animaux ovipares', NULL, 1, 1,TRUE),
-        ('L IA', 'L intelligence artificelle est un système informatique capable d apprendre par lui-même', NULL, 2, 2,TRUE);
+
 INSERT INTO UE (idue,nom, idProf)
   VALUES ('INFOB331','Introduction à la démarche scientifique', 1),
         ('INFOMA451','Mémoire', 2);
 INSERT INTO Cours (idUE, nom)
   VALUES ('INFOB331', 'Introduction à la démarche scientifique'),
         ('INFOMA451', 'Mémoire');
+INSERT INTO Sujet (titre, descriptif, fichier, idPeriode, idProf,estPris,idCours)
+    VALUES ('La reproduction des insectes', 'Les insectes sont des animaux ovipares', NULL, 1, 1,TRUE,1),
+          ('L IA', 'L intelligence artificelle est un système informatique capable d apprendre par lui-même', NULL, 2, 2,TRUE,2);
 INSERT INTO Etudiant (bloc, idPersonne, idSujet)
   VALUES (1, 1, 1),
         (2, 2, 2);
