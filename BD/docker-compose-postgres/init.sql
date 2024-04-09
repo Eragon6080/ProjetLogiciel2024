@@ -11,6 +11,13 @@ INSERT INTO test (name, archived)
   ('test row 2', false);
 */
 
+-- lines to drop all tables
+/*
+drop schema public cascade;
+create schema public;
+*/
+
+
 CREATE TABLE Personne(
   idPersonne INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   nom TEXT NOT NULL,
@@ -99,14 +106,14 @@ CREATE TABLE Inscription(
 -- add insertion data
 INSERT INTO Personne (nom, prenom, mail,password, role)
   VALUES ('Doe', 'John', 'john.doe@gmail.com', 'pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=',
-          '{"role" : ["etudiant"]}'),
-        ('Doe', 'Jane', 'jane.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role" : ["etudiant"]}'),
-        ('Doe', 'Rick','ricke.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role" : ["etudiant"]}'),
-        ('Doe', 'Rudolf','rudolf.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role" : ["etudiant"]}'),
-        ('Doe', 'Jack', 'jack.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role" : ["professeur","superviseur"]}'),
-        ('Doe', 'Jill', 'jill.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=',' {"role" : ["professeur"]}'),
-        ('Doe', 'James', 'james.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=', '{"role" : ["admin"]}'),
-        ('Doe', 'Jenny', 'jenny.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role": ["superviseur"]}');
+          '{"role" : ["etudiant"], "view": "etudiant"}'),
+        ('Doe', 'Jane', 'jane.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role" : ["etudiant"], "view": "etudiant"}'),
+        ('Doe', 'Rick','ricke.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role" : ["etudiant"], "view": "etudiant"}'),
+        ('Doe', 'Rudolf','rudolf.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role" : ["etudiant"], "view": "etudiant"}'),
+        ('Doe', 'Jack', 'jack.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role" : ["professeur","superviseur"], "view": "professeur"}'),
+        ('Doe', 'Jill', 'jill.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=',' {"role" : ["professeur"], "view": "professeur"}'),
+        ('Doe', 'James', 'james.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=', '{"role" : ["admin"], "view": "admin"}'),
+        ('Doe', 'Jenny', 'jenny.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role": ["superviseur"], "view": "superviseur"}');
 INSERT INTO Periode (annee)
   VALUES (EXTRACT(YEAR FROM TIMESTAMP '2024-01-01')),
         (EXTRACT(YEAR FROM TIMESTAMP '2024-01-01'));
