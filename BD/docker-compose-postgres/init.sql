@@ -58,8 +58,9 @@ CREATE TABLE UE(
 );
 CREATE TABLE Cours(
   idCours INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  idue TEXT NOT NULL,
+  idue TEXT,
   nom TEXT NOT NULL,
+  idEtudiant INT,
   FOREIGN KEY (idUE) REFERENCES UE(idUE)
 );
 
@@ -141,5 +142,10 @@ INSERT INTO Inscription (idEtudiant, idCours)
         (2, 2),
         (3, 1),
         (4, 2);
+
+alter table Cours ADD FOREIGN KEY (idetudiant) REFERENCES Etudiant(idetudiant)
+
+Update Cours Set idetudiant = 1 where idCours = 1;
+UPDATE COURS SET idEtudiant = 2 where idCours = 2
 
 
