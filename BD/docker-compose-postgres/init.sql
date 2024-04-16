@@ -30,10 +30,18 @@ CREATE TABLE Personne(
   is_staff BOOLEAN DEFAULT True,
   is_active BOOLEAN DEFAULT True
 );
-CREATE TABLE Delivrable(
+
+CREATE TABLE Devoir(
   idDelivrable INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  fichier TEXT,
   typeFichier TEXT check(typeFichier IN ('pdf', 'docx', 'pptx', 'xlsx', 'zip', 'rar', '7z', 'tar', 'gz', 'bz2', 'xz', 'tgz', 'tbz2', 'txz', 'pdf', 'docx', 'pptx', 'xlsx', 'zip', 'rar', '7z', 'tar', 'gz', 'bz2', 'xz', 'tgz', 'tbz2', 'txz'))
+);
+CREATE FichierDelivrable(
+  idFichier INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY, 
+  fichier TEXT NOT NULL,
+  idEtudiant INT,
+  idDelivrable INT,
+  FOREIGN KEY (idEtudiant) REFERENCES Etudiant(idEtudiant),
+  FOREIGN KEY (idDelivrable) REFERENCES Delivrable(idDelivrable)
 );
 CREATE TABLE Periode(
   idPeriode INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
