@@ -50,7 +50,7 @@ CREATE TABLE Etape(
 );
 CREATE TABLE Professeur(
   idProf INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  specialite TEXT NOT NULL,
+  specialite TEXT,
   idPersonne INT NOT NULL,
   idPeriode INT NOT NULL,
   FOREIGN KEY (idPersonne) REFERENCES Personne(idPersonne),
@@ -65,8 +65,9 @@ CREATE TABLE UE(
 );
 CREATE TABLE Cours(
   idCours INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  idue TEXT NOT NULL,
+  idue TEXT,
   nom TEXT NOT NULL,
+  idEtudiant INT,
   FOREIGN KEY (idUE) REFERENCES UE(idUE)
 );
 
@@ -115,7 +116,7 @@ INSERT INTO Personne (nom, prenom, mail,password, role)
         ('Doe', 'James', 'james.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=', '{"role" : ["admin"], "view": "admin"}'),
         ('Doe', 'Jenny', 'jenny.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role": ["superviseur"], "view": "superviseur"}');
 INSERT INTO Periode (annee)
-  VALUES (EXTRACT(YEAR FROM TIMESTAMP '2024-01-01')),
+  VALUES (EXTRACT(YEAR FROM TIMESTAMP '2023-01-01')),
         (EXTRACT(YEAR FROM TIMESTAMP '2024-01-01'));
 INSERT INTO Delivrable (fichier, typeFichier)
   VALUES ('/home/etudiant/devoir1.pdf', 'pdf'),
@@ -125,8 +126,8 @@ INSERT INTO Etape (delai, description, idPeriode, idDelivrable)
         ('2024-02-01', 'rendre le devoir 2', 2, 2);
 
 INSERT INTO Professeur (specialite, idPersonne, idPeriode)
-  VALUES ('IA', 3, 1),
-        ('ML', 4, 2);
+  VALUES ('IA', 5, 1),
+        ('ML', 6, 2);
 
 INSERT INTO UE (idue,nom, idProf)
   VALUES ('INFOB331','Introduction à la démarche scientifique', 1),
@@ -148,5 +149,10 @@ INSERT INTO Inscription (idEtudiant, idCours)
         (2, 2),
         (3, 1),
         (4, 2);
+
+alter table Cours ADD FOREIGN KEY (idetudiant) REFERENCES Etudiant(idetudiant);
+
+Update Cours Set idetudiant = 1 where idCours = 1;
+UPDATE COURS SET idEtudiant = 2 where idCours = 2;
 
 

@@ -1,0 +1,495 @@
+\documentclass[11pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\usepackage{enumitem}
+\usepackage{hyperref}
+\usepackage{graphicx} 
+\usepackage{xcolor} 
+\definecolor{navy}{RGB}{35, 215, 240   }
+\title{\includegraphics[width=4cm]{images/logo_unamur.png}\\[1cm] % Mettez à jour le chemin ici
+Journal de Bord du Projet Agile}
+\author{Equipe Pims}
+\date{Commencé le: 14-02-2024}
+
+\begin{document}
+
+\maketitle
+
+
+
+\maketitle
+
+\newpage
+\section*{Réunions et Activités}
+
+
+
+
+\subsection*{{\color{navy}Stand Meeting - 26.02}}
+Voici les notes prises lors du stand meeting :
+
+\begin{itemize}
+    \item Les premières choses à faire seraient tout ce qui est lié aux opérations CRUD dans le workflow.
+    \item La première tâche serait liée à la proposition du sujet, la spécification des sujets mise à vue par les étudiants, et la modification du choix en cours (suppression, modification).
+    \item Prendre en compte qu’un cours peut être géré par plusieurs professeurs.
+    \item La logique et la validation devraient être réalisées en dehors de Moodle mais le côté visuel serait sur Webcampus. Il faudrait donc lister ce qui est à part et ce qui est incorporé.
+    \item À faire : Regarder les différentes composantes existantes et discuter avec les autres intervenants.
+    \item Faire un catalogue des différentes fonctionnalités de Webcampus qui seraient intéressantes. Si elles existent on y va, sinon on les redéveloppe.
+    \item Il nous manque clairement la distinction entre professeur et superviseur.
+    \item On peut aussi clairement distinguer les différents travaux possibles à rendre.
+    \item On doit également séparer l’archivage et l’historique. Les personnes ayant accès à ces deux fonctionnalités peuvent différer.
+\end{itemize}
+
+
+
+
+
+
+
+\subsection*{{\color{navy}Daily Scrum - 26.02}}
+\textbf{Done:}
+\begin{itemize}
+  \item Opérations CRUD dans le workflow.
+  \item Discussion sur la proposition et la spécification des sujets.
+\end{itemize}
+\textbf{In Progress:}
+\begin{itemize}
+  \item Modification du choix en cours (suppression, modification).
+\end{itemize}
+\textbf{TODO:}
+\begin{itemize}
+  \item Examiner les différentes composantes existantes.
+  \item Discuter avec les autres intervenants.
+\end{itemize}
+\textbf{Problèmes:}
+\begin{itemize}
+  \item Manque de distinction claire entre professeur et superviseur.
+  \item Séparation nécessaire entre l'archivage et l'historique.
+\end{itemize}
+
+
+
+
+
+
+
+\subsection*{{\color{navy}Sprint Review - 13.03}}
+\textbf{État d'avancement:}
+\begin{itemize}
+  \item Complétion et clarification des scénarios.
+  \item Début de codage basé sur les maquettes Figma.
+\end{itemize}
+\textbf{Problèmes :}
+\begin{itemize}
+  \item Nécessité de décider des technologies pour la base de données.
+\end{itemize}
+\textbf{Suite:}
+\begin{itemize}
+  \item Planification du prochain sprint en se concentrant sur la liaison entre les écrans.
+\end{itemize}
+
+
+
+
+
+\subsection*{{\color{navy}Sprint Rétrospective - 15.03}}
+\textbf{Axes d'amélioration:}
+\begin{itemize}
+  \item Augmenter le nombre de Daily Scrums pour améliorer la coordination.
+\end{itemize}
+\textbf{Points positifs:}
+\begin{itemize}
+  \item Bonne répartition des tâches.
+  \item Bonne communication au sein de l'équipe.
+\end{itemize}
+\textbf{Suivi des rétros précédentes:}
+\begin{itemize}
+  \item Continuer de préparer les réunions avec le client.
+\end{itemize}
+\textbf{Points d'actions:}
+\begin{itemize}
+  \item Remplir régulièrement le journal de bord.
+\end{itemize}
+
+
+
+
+
+
+\subsection*{{\color{navy}Sprint Planning  - 15.03}}
+
+\textbf{Figma:}
+\begin{itemize}
+    \item Terminer les mock-ups et leurs transitions pour chaque rôle afin d’avoir une idée plus claire sur comment s’enchainent les différentes pages et identifier les composants communs entre les rôles.
+\end{itemize}
+
+\textbf{Implémentation:}
+\begin{itemize}
+    \item Début de l'implémentation.
+    \item Création des différents visuels qui vont être proposés dans l’application.
+    \item Création des liens avec la base de données (plus création de la nôtre si besoin pour complémenter celle déjà proposée).
+    \item Demander quelles technologies sont déjà utilisées pour gérer les données sur Webcampus afin d’utiliser des technologies compatibles avec celles-ci.
+\end{itemize}
+
+\textbf{Résultats du Poker Planning:}
+\begin{itemize}
+    \item User story 7 $\rightarrow$ 3
+    \item User story 2 $\rightarrow$ 5
+    \item User story 20 $\rightarrow$ 5
+    \item User story 26 $\rightarrow$ 2
+    \item User story 8 $\rightarrow$ 21
+    \item User story 30 $\rightarrow$ 3
+    \item User story 24 $\rightarrow$ 8
+    \item User story 29 $\rightarrow$ 2
+    \item User story 12 $\rightarrow$ 3
+    \item User story 22 $\rightarrow$ 3
+    \item User story 21 $\rightarrow$ 3
+    \item User story 38 $\rightarrow$ 5
+\end{itemize}
+
+
+
+
+
+
+
+
+\subsection*{{\color{navy}Daily Scrum - 19.03}}
+\textbf{Done:}
+\begin{itemize}
+  \item Design de la page.
+  \item Création d'un formulaire de connexion (Django).
+\end{itemize}
+\textbf{In Progress:}
+\begin{itemize}
+  \item Adaptation du code Django aux besoins du projet.
+  \item Transformation des mockups en pages web.
+\end{itemize}
+\textbf{TODO:}
+\begin{itemize}
+  \item Établir une connexion entre le site web et la base de données.
+  \item Consulter la Vice-doyenne pour l'algorithme proposé.
+\end{itemize}
+\textbf{Problèmes:}
+\begin{itemize}
+  \item Pas d'accès à la base de données actuelle.
+\end{itemize}
+
+
+
+
+
+
+\subsection*{{\color{navy}Daily Scrum - 22.03}}
+
+\textbf{Done:}
+\begin{itemize}
+  \item Avancement dans le design du Frontend.
+\end{itemize}
+
+\textbf{In Progress:}
+\begin{itemize}
+  \item -- (Aucune tâche spécifiée comme en cours pour cette session)
+\end{itemize}
+
+\textbf{TODO:}
+\begin{itemize}
+  \item Faire un schéma (entité-relation) pour la future base de données.
+  \item Décider si nous devons créer notre propre base de données.
+  \item Demander quelles technologies de base de données sont actuellement utilisées au service informatique pour assurer la compatibilité.
+\end{itemize}
+
+\textbf{Problèmes:}
+\begin{itemize}
+  \item Impossible d'avoir accès à la base de données actuelle.
+\end{itemize}
+
+
+
+
+
+
+\subsection*{{\color{navy}Daily Scrum - 26.03.2024}}
+
+\textbf{Done:}
+\begin{itemize}
+  \item Le scénario de l’admin a été clairement défini, avec des fonctionnalités pour définir et modifier les rôles, ainsi qu'ajouter ou supprimer des personnes de la base de données.
+  \item Les scénarios de l'étudiant et du professeur ont été définis précédemment.
+  \item L'implémentation de la base de données est terminée et le schéma de la BD est considéré comme adéquat pour le moment.
+  \item Les scénarios sous forme de vidéos ont été réalisés.
+  \item La téléversion des fichiers fonctionne correctement.
+\end{itemize}
+
+\textbf{In Progress:}
+\begin{itemize}
+  \item -- 
+\end{itemize}
+
+\textbf{TODO:}
+\begin{itemize}
+  \item Rédiger la version écrite des scénarios.
+  \item Continuer l'avancement du site en fonction des scénarios définis.
+\end{itemize}
+
+\textbf{Problèmes:}
+\begin{itemize}
+  \item -- 
+\end{itemize}
+
+
+
+
+
+
+
+\subsection*{{\color{navy}Sprint Review - 27.03}}
+
+\textbf{État d'avancement:}
+\begin{itemize}
+  \item Présentation détaillée des maquettes Figma, avec une mise en avant spécifique pour chaque rôle.
+  \item Ajout de déclencheurs aux scénarios suivant le format "trigger-effets".
+  \item Isolation de la base de données modèle de la base de données réelle pour réduire les dépendances fortes et faciliter les changements indépendants.
+\end{itemize}
+
+\textbf{Problèmes:}
+\begin{itemize}
+  \item Nécessité d'harmoniser le design avec celui utilisé sur Microsoft Teams.
+  \item Amélioration requise pour la fonctionnalité de tri des cours et de la liste des participants.
+  \item Réduction du nombre de clics nécessaires pour certaines actions, en particulier pour les tâches répétitives.
+\end{itemize}
+
+\textbf{Suite:}
+\begin{itemize}
+  \item Intégration d'une option pour ajouter plusieurs personnes simultanément.
+  \item Ajout d'une fonctionnalité permettant d'épingler des éléments.
+  \item Hébergement automatique des fichiers sur OneDrive et réalisation d'une simulation avec un cours fictif.
+\end{itemize}
+
+\textbf{Remarques du client:}
+\begin{itemize}
+  \item Suppression demandée de la demande de confirmation lors de certaines actions.
+  \item Proposition d'utiliser des vues pour gérer la séparation entre la base de données modèle et la base de données réelle.
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+\subsection*{{\color{navy}Sprint Rétrospective - 27.03}}
+
+\textbf{Points positifs:}
+\begin{itemize}
+  \item Amélioration de la méthode Agile appliquée au projet.
+  \item Régularité des réunions quotidiennes (dailies), favorisant une bonne coordination.
+  \item Cette itération a été menée avec très peu d'erreurs, approchant un sans-faute.
+\end{itemize}
+
+\textbf{Axes d'amélioration:}
+\begin{itemize}
+  \item Mise à jour régulière du Kanban pour refléter l'état actuel des tâches et garantir une vision claire de l'avancement.
+  \item Assignation précise et adéquate des tâches dans le product backlog pour éviter toute confusion.
+  \item Révision et manipulation du product backlog à chaque réunion quotidienne pour assurer l'alignement de l'équipe et la clarté des objectifs.
+\end{itemize}
+
+\textbf{Suivi des rétros précédentes:}
+\begin{itemize}
+  \item Les actions déterminées lors des rétrospectives précédentes ont été respectées et ont conduit à des améliorations tangibles dans la gestion du projet et la coordination de l'équipe.
+\end{itemize}
+
+\textbf{Points d'actions:}
+\begin{itemize}
+  \item Continuer l'application rigoureuse des méthodes Agile adoptées pour conserver le niveau d'amélioration atteint.
+  \item Appliquer les axes d'amélioration identifiés dans cette rétrospective pour le prochain sprint.
+  \item Définir des actions concrètes pour chaque point à améliorer et assigner des responsables pour leur mise en œuvre.
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection*{{\color{navy}Sprint Planning - 29.03}}
+
+\textbf{Poker Planning:}
+\begin{itemize}
+    \item User story 7 $\rightarrow$ 3
+    \item User story 6 $\rightarrow$ 8
+    \item User story 19 $\rightarrow$ 3
+    \item User story 51 $\rightarrow$ 1
+    \item User story 27 $\rightarrow$ 3
+    \item User story 49 $\rightarrow$ 2
+    \item User story 50 $\rightarrow$ 2
+    \item User story 13 $\rightarrow$ 5
+    \item User story 22 $\rightarrow$ 3
+    \item User story 24 $\rightarrow$ 13
+    \item User story 9 $\rightarrow$ 5
+\end{itemize}
+
+\textbf{Répartition des tâches:}
+\begin{itemize}
+    \item Matthys et Luis : Gestion des Rôles par l’admin.
+    \item Rosny et Oliver : Timeline des projets (début, délivrables, fin).
+    \item Tom et Yassine : Fiche signalétique personne et projet.
+\end{itemize}
+
+
+
+
+
+
+
+
+
+
+\subsection*{{\color{navy}Daily Scrum - 04.04.2024}}
+
+\textbf{Done:}
+\begin{itemize}
+  \item Résolution des problèmes rencontrés avec la fonctionnalité 'récupérer sujet'.
+  \item Progression significative dans l'implémentation des user stories assignées.
+\end{itemize}
+
+\textbf{In Progress:}
+\begin{itemize}
+  \item Finalisation des user stories en cours, notamment celles liées à la gestion des rôles par l'admin et la timeline des projets.
+\end{itemize}
+
+\textbf{TODO:}
+\begin{itemize}
+  
+  \item Continuer le développement du site en accord avec les scénarios planifiés.
+\end{itemize}
+
+\textbf{Problèmes:}
+\begin{itemize}
+  \item Difficultés à séparer et récupérer les informations de manière efficace pour certaines fonctionnalités.
+  \item Accès limité à la base de données nécessitant une évaluation pour une solution potentielle, y compris la création d'une nouvelle base de données si nécessaire.
+\end{itemize}
+
+
+
+
+
+
+\subsection*{{\color{navy}Daily Scrum - 09.04.2024}}
+
+\textbf{Done:}
+\begin{itemize}
+  \item Rosny a terminé sa user story.
+  \item Luis a terminé sa user story sans rencontrer de problèmes.
+\end{itemize}
+
+\textbf{In Progress:}
+\begin{itemize}
+  \item Yassine terminera sa user story sous peu.
+\end{itemize}
+
+\textbf{TODO:}
+\begin{itemize}
+  \item Attribution des taches 
+\end{itemize}
+
+\textbf{Attributions des Tâches:}
+\begin{itemize}
+  \item Rosny est assigné à la user story 9 - Pouvoir déposer un devoir.
+  \item Mathys est assigné à la user story 12.
+  \item Oliver est assigné à la user story 74.
+  \item Luis est assigné à la user story 65.
+\end{itemize}
+
+\textbf{Problèmes:}
+\begin{itemize}
+  \item Aucun problème majeur rencontré sauf la considération sur la gestion des dates mentionnée par Rosny.
+\end{itemize}
+
+\subsection*{{\color{navy}Sprint Review - 11.04}}
+\textbf{État d'avancement:}
+\begin{itemize}
+  \item Au niveau de la gestion des sujets et précisément pour la modification d’un sujet : Ajout d’une fonctionnalité pour undo ( revenir à l’état d’avant )
+\end{itemize}
+\textbf{Problèmes :}
+\begin{itemize}
+  \item 
+\end{itemize}
+\textbf{Suite:}
+\begin{itemize}
+ \item Faire la chaîne complète pour un sujet donné. Le but ? Lier les morceaux déjà faits
+ \item Compléter la définition des modalités d’un délivrable  ( les étudiants qui ont choisi/ sont concerné, type de fichiers, étapes séparées pour chaque délivrable, deadlines ) => logique générale pour le processus des délivrables 
+ \item Historique des sujets
+
+\end{itemize}
+
+
+
+
+
+\subsection*{{\color{navy}Sprint Rétrospective - 12.04}}
+
+\textbf{Points positifs:}
+\begin{itemize}
+  \item Bonne application de la méthode agile à travers toute l'équipe, mentionnée unanimement comme efficace et bien mise en pratique.
+\end{itemize}
+
+\textbf{Axes d'amélioration:}
+\begin{itemize}
+  \item Dynamiser la sélection des user stories pour s'assurer que les tâches prioritaires sont toujours choisies.
+  \item Améliorer la communication en cas de problèmes ou de contraintes de temps pour éviter les retards et les malentendus.
+  \item Encourager les membres de l'équipe à demander de l'aide lorsqu'ils en ont besoin pour maintenir la fluidité du travail.
+  
+\end{itemize}
+
+\textbf{Suivi des rétros précédentes:}
+\begin{itemize}
+  \item Continuation de l'application rigoureuse des méthodes Agile qui a été fructueuse et a mené à des améliorations tangibles dans la gestion du projet et la coordination de l'équipe.
+\end{itemize}
+
+\textbf{Points d'actions:}
+\begin{itemize}
+  \item Continuer à appliquer et à améliorer l'efficacité des méthodes Agile adoptées.
+  \item Mettre en œuvre les axes d'amélioration identifiés durant cette rétrospective pour le prochain sprint.
+
+\end{itemize}
+
+
+
+\subsection*{{\color{navy}Sprint Planning - 12.04}}
+
+\textbf{Poker Planning:}
+\begin{itemize}
+    \item User story 11 $\rightarrow$ 5 (Priorité haute)
+    \item User story 14 $\rightarrow$ 5 (Priorité haute)
+    \item User story 73 $\rightarrow$ 5 (Priorité haute)
+    \item User story 28 $\rightarrow$ 2 (Priorité haute)
+    \item User story 5 $\rightarrow$ 1 (Priorité haute)
+    \item User story 18 $\rightarrow$ 1 (Priorité haute)
+\end{itemize}
+
+\textbf{Répartition des tâches:}
+\begin{itemize}
+    \item Rosny: Responsable de la User story 73.
+    \item Mathys: Responsable des User stories 5 et 18.
+    \item Luis et Tom: Responsables de la User story 28.
+    \item Oliver: Responsable de la User story 14.
+    \item Mathys et Yassin: Responsables de la User story 11.
+\end{itemize}
+
+
+
+
+
+\end{document}
