@@ -31,11 +31,11 @@ CREATE TABLE Personne(
   is_active BOOLEAN DEFAULT True
 );
 
-CREATE TABLE Devoir(
+CREATE TABLE Delivrable(
   idDelivrable INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   typeFichier TEXT check(typeFichier IN ('pdf', 'docx', 'pptx', 'xlsx', 'zip', 'rar', '7z', 'tar', 'gz', 'bz2', 'xz', 'tgz', 'tbz2', 'txz', 'pdf', 'docx', 'pptx', 'xlsx', 'zip', 'rar', '7z', 'tar', 'gz', 'bz2', 'xz', 'tgz', 'tbz2', 'txz'))
 );
-CREATE FichierDelivrable(
+CREATE TABLE FichierDelivrable(
   idFichier INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY, 
   fichier TEXT NOT NULL,
   idEtudiant INT,
@@ -127,8 +127,8 @@ INSERT INTO Periode (annee)
   VALUES (EXTRACT(YEAR FROM TIMESTAMP '2023-01-01')),
         (EXTRACT(YEAR FROM TIMESTAMP '2024-01-01'));
 INSERT INTO Delivrable (fichier, typeFichier)
-  VALUES ('/home/etudiant/devoir1.pdf', 'pdf'),
-        ('/home/etudiant/devoir2', 'docx');
+  VALUES ('pdf'),
+        ( 'docx');
 INSERT INTO Etape (delai, description, idPeriode, idDelivrable)
   VALUES ('2024-01-01', 'rendre le devoir 1', 1, 1),
         ('2024-02-01', 'rendre le devoir 2', 2, 2);
