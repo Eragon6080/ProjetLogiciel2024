@@ -1,13 +1,3 @@
 {
-    "sqltools.connections": [
-        {
-            "previewLimit": 50,
-            "server": "localhost",
-            "port": 5432,
-            "driver": "PostgreSQL",
-            "name": "genielogicielle",
-            "database": "admin",
-            "username": "admin"
-        }
-    ]
+    "sqltools.connections": []
 }
