@@ -35,7 +35,7 @@ CREATE TABLE Delivrable(
   idDelivrable INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   typeFichier TEXT check(typeFichier IN ('pdf', 'docx', 'pptx', 'xlsx', 'zip', 'rar', '7z', 'tar', 'gz', 'bz2', 'xz', 'tgz', 'tbz2', 'txz', 'pdf', 'docx', 'pptx', 'xlsx', 'zip', 'rar', '7z', 'tar', 'gz', 'bz2', 'xz', 'tgz', 'tbz2', 'txz'))
 );
-CREATE FichierDelivrable(
+CREATE TABLE FichierDelivrable(
   idFichier INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY, 
   fichier TEXT NOT NULL,
   idEtudiant INT,
