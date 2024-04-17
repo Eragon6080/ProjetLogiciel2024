@@ -31,7 +31,7 @@ CREATE TABLE Personne(
   is_active BOOLEAN DEFAULT True
 );
 
-CREATE TABLE Devoir(
+CREATE TABLE Delivrable(
   idDelivrable INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   typeFichier TEXT check(typeFichier IN ('pdf', 'docx', 'pptx', 'xlsx', 'zip', 'rar', '7z', 'tar', 'gz', 'bz2', 'xz', 'tgz', 'tbz2', 'txz', 'pdf', 'docx', 'pptx', 'xlsx', 'zip', 'rar', '7z', 'tar', 'gz', 'bz2', 'xz', 'tgz', 'tbz2', 'txz'))
 );
