@@ -127,8 +127,8 @@ INSERT INTO Periode (annee)
   VALUES (EXTRACT(YEAR FROM TIMESTAMP '2023-01-01')),
         (EXTRACT(YEAR FROM TIMESTAMP '2024-01-01'));
 INSERT INTO Delivrable (fichier, typeFichier)
-  VALUES ('/home/etudiant/devoir1.pdf', 'pdf'),
-        ('/home/etudiant/devoir2', 'docx');
+  VALUES ('pdf'),
+        ( 'docx');
 INSERT INTO Etape (delai, description, idPeriode, idDelivrable)
   VALUES ('2024-01-01', 'rendre le devoir 1', 1, 1),
         ('2024-02-01', 'rendre le devoir 2', 2, 2);
