@@ -108,19 +108,12 @@ CREATE TABLE FichierDelivrable(
   fichier TEXT NOT NULL,
   idEtudiant INT,
   idDelivrable INT,
-  rendu BOOLEAN NOT NULL DEFAULT FALSE,
+  estRendu BOOLEAN NOT NULL DEFAULT FALSE,
   FOREIGN KEY (idEtudiant) REFERENCES Etudiant(idEtudiant),
   FOREIGN KEY (idDelivrable) REFERENCES Delivrable(idDelivrable)
 );
 
-CREATE TABLE FichierDelivrable(
-  idFichier INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY, 
-  fichier TEXT NOT NULL,
-  idEtudiant INT,
-  idDelivrable INT,
-  FOREIGN KEY (idEtudiant) REFERENCES Etudiant(idEtudiant),
-  FOREIGN KEY (idDelivrable) REFERENCES Delivrable(idDelivrable)
-);
+
 
 
 
@@ -138,7 +131,7 @@ INSERT INTO Personne (nom, prenom, mail,password, role)
 INSERT INTO Periode (annee)
   VALUES (EXTRACT(YEAR FROM TIMESTAMP '2023-01-01')),
         (EXTRACT(YEAR FROM TIMESTAMP '2024-01-01'));
-INSERT INTO Delivrable (typeFichier)
+
 INSERT INTO Delivrable (typeFichier)
   VALUES ('pdf'),
         ('docx');
