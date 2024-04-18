@@ -40,6 +40,7 @@ CREATE TABLE FichierDelivrable(
   fichier TEXT NOT NULL,
   idEtudiant INT,
   idDelivrable INT,
+  rendu BOOLEAN NOT NULL DEFAULT FALSE,
   FOREIGN KEY (idEtudiant) REFERENCES Etudiant(idEtudiant),
   FOREIGN KEY (idDelivrable) REFERENCES Delivrable(idDelivrable)
 );
