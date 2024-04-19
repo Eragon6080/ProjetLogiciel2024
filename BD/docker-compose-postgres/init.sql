@@ -106,6 +106,7 @@ CREATE TABLE Inscription(
 CREATE TABLE FichierDelivrable(
   idFichier INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   fichier TEXT NOT NULL,
+  note INT,
   idEtudiant INT,
   idDelivrable INT,
   estRendu BOOLEAN NOT NULL DEFAULT FALSE,
