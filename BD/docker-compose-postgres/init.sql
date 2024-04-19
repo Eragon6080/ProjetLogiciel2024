@@ -104,7 +104,7 @@ CREATE TABLE Inscription(
   FOREIGN KEY (idCours) REFERENCES Cours(idCours)
 );
 CREATE TABLE FichierDelivrable(
-  idFichier INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY, 
+  idFichier INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   fichier TEXT NOT NULL,
   idEtudiant INT,
   idDelivrable INT,
@@ -113,7 +113,21 @@ CREATE TABLE FichierDelivrable(
   FOREIGN KEY (idDelivrable) REFERENCES Delivrable(idDelivrable)
 );
 
+CREATE TABLE Superviseur(
+  idSuperviseur INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  specialite TEXT NOT NULL,
+  idPersonne INT NOT NULL,
+  FOREIGN KEY (idPersonne) REFERENCES Personne(idPersonne)
+);
 
+CREATE TABLE Supervision(
+  idSupervision INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  description TEXT NOT NULL,
+  idSuperviseur INT NOT NULL,
+  idUe TEXT NOT NULL,
+  FOREIGN KEY (idSuperviseur) REFERENCES Superviseur(idSuperviseur),
+  FOREIGN KEY (idUe) REFERENCES UE(idUe)
+);
 
 
 
@@ -163,6 +177,17 @@ INSERT INTO Inscription (idEtudiant, idCours)
         (2, 2),
         (3, 1),
         (4, 2);
+
+INSERT INTO Superviseur (specialite, idPersonne)
+  VALUES
+  ('IA', 8),
+  ('ML', 5);
+
+INSERT INTO Supervision (description, idSuperviseur, idUe)
+  VALUES
+  ('Supervision de l UE INFOB331', 1, 'INFOB331'),
+  ('Supervision de l UE INFOMA451', 2, 'INFOMA451');
+
 
 alter table Cours ADD FOREIGN KEY (idetudiant) REFERENCES Etudiant(idetudiant);
 
