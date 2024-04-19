@@ -81,8 +81,9 @@ CREATE TABLE Sujet(
   estPris BOOLEAN NOT NULL DEFAULT FALSE,
   fichier TEXT, --  localisation du fichier de la proposition de sujet
   idPeriode INT NOT NULL DEFAULT 1,
-  idProf INT NOT NULL DEFAULT 1,
+  idProf INT DEFAULT 1,
   idCours INT NOT NULL DEFAULT 1,
+  idSuperviseur INT DEFAULT 1,
   FOREIGN KEY (idPeriode) REFERENCES Periode(idPeriode),
   FOREIGN KEY (idProf) REFERENCES Professeur(idProf),
   FOREIGN KEY (idCours) REFERENCES Cours(idCours)
@@ -191,6 +192,7 @@ INSERT INTO Supervision (description, idSuperviseur, idUe)
 
 
 alter table Cours ADD FOREIGN KEY (idetudiant) REFERENCES Etudiant(idetudiant);
+alter table Sujet ADD FOREIGN KEY (idSuperviseur) REFERENCES Superviseur(idSuperviseur);
 
 Update Cours Set idetudiant = 1 where idCours = 1;
 UPDATE COURS SET idEtudiant = 2 where idCours = 2;
