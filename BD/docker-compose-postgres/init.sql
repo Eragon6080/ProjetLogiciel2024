@@ -136,8 +136,8 @@ INSERT INTO Delivrable (typeFichier)
   VALUES ('pdf'),
         ('docx');
 INSERT INTO Etape (delai, description, idPeriode, idDelivrable)
-  VALUES ('2024-01-01', 'rendre le devoir 1', 1, 1),
-        ('2024-02-01', 'rendre le devoir 2', 2, 2);
+  VALUES ('2024-09-01', 'rendre le devoir 1', 1, 1),
+        ('2024-07-01', 'rendre le devoir 2', 2, 2);
 
 INSERT INTO Professeur (specialite, idPersonne, idPeriode)
   VALUES ('IA', 5, 1),
@@ -145,10 +145,13 @@ INSERT INTO Professeur (specialite, idPersonne, idPeriode)
 
 INSERT INTO UE (idue,nom, idProf)
   VALUES ('INFOB331','Introduction à la démarche scientifique', 1),
-        ('INFOMA451','Mémoire', 2);
-INSERT INTO Cours (idUE, nom)
-  VALUES ('INFOB331', 'Introduction à la démarche scientifique'),
-        ('INFOMA451', 'Mémoire');
+        ('INFOMA451','Mémoire', 2),
+        ('INFOB318', 'Projet personnel', 1);
+INSERT INTO Cours (idUE, nom, idEtudiant)
+  VALUES ('INFOB331', 'Introduction à la démarche scientifique', 1),
+        ('INFOMA451', 'Mémoire', 2),
+        ('INFOB331', 'Introduction à la démarche scientifique', 3),
+        ('INFOMA451', 'Mémoire', 4);
 INSERT INTO Sujet (titre, descriptif, fichier, idPeriode, idProf,estPris,idCours)
     VALUES ('La reproduction des insectes', 'Les insectes sont des animaux ovipares', NULL, 1, 1,TRUE,1),
           ('L IA', 'L intelligence artificelle est un système informatique capable d apprendre par lui-même', NULL, 2, 2,TRUE,2);
@@ -166,7 +169,5 @@ INSERT INTO Inscription (idEtudiant, idCours)
 
 alter table Cours ADD FOREIGN KEY (idetudiant) REFERENCES Etudiant(idetudiant);
 
-Update Cours Set idetudiant = 1 where idCours = 1;
-UPDATE COURS SET idEtudiant = 2 where idCours = 2;
 
 
