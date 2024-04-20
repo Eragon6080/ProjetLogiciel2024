@@ -12,12 +12,12 @@ INSERT INTO test (name, archived)
 */
 
 -- lines to drop all tables
-/*
+
 drop schema public cascade;
 create schema public;
-*/
 
 
+-- create tables
 CREATE TABLE Personne(
   idPersonne INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   nom TEXT NOT NULL,
@@ -81,11 +81,11 @@ CREATE TABLE Sujet(
   estPris BOOLEAN NOT NULL DEFAULT FALSE,
   fichier TEXT, --  localisation du fichier de la proposition de sujet
   idPeriode INT NOT NULL DEFAULT 1,
-  idProf INT DEFAULT 1,
+  idProfesseur INT,
   idCours INT NOT NULL DEFAULT 1,
-  idSuperviseur INT DEFAULT 1,
+  idSuperviseur INT,
   FOREIGN KEY (idPeriode) REFERENCES Periode(idPeriode),
-  FOREIGN KEY (idProf) REFERENCES Professeur(idProf),
+  FOREIGN KEY (idProfesseur) REFERENCES Professeur(idProf),
   FOREIGN KEY (idCours) REFERENCES Cours(idCours)
 
 );
@@ -107,7 +107,6 @@ CREATE TABLE Inscription(
 CREATE TABLE FichierDelivrable(
   idFichier INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   fichier TEXT NOT NULL,
-  note INT,
   idEtudiant INT,
   idDelivrable INT,
   estRendu BOOLEAN NOT NULL DEFAULT FALSE,
@@ -131,6 +130,36 @@ CREATE TABLE Supervision(
   FOREIGN KEY (idUe) REFERENCES UE(idUe)
 );
 
+-- create a function
+CREATE OR REPLACE FUNCTION check_idprof_idsuperviseur() RETURNS TRIGGER AS $$
+     DECLARE idProf INT;
+     DECLARE idSupervis INT;
+BEGIN
+   select idProfesseur into idProf from sujet where Sujet.idProfesseur = NEW.idProfesseur;
+   select Sujet.idSuperviseur into idSupervis from sujet where Sujet.idSuperviseur = NEW.idSuperviseur;
+
+    IF NEW.idprofesseur IS NOT NULL AND NEW.idsuperviseur IS NOT NULL THEN
+        RAISE EXCEPTION 'Un sujet ne peut pas avoir à la fois un idProf et un idsuperviseur. Un des deux doit être NULL.';
+    END IF;
+
+   IF idProf IS NOT NULL and idSupervis IS NULL THEN
+       RETURN NEW;
+    END IF;
+   IF NEW.idprofesseur is NULL and NEW.idsuperviseur is not NULL THEN
+       RETURN NEW;
+    END IF;
+    IF NEW.idprofesseur IS NOT NULL and NEW.idsuperviseur IS NULL THEN
+        RETURN NEW;
+    END IF;
+END;
+$$ LANGUAGE plpgsql;
+
+--create trigger
+CREATE TRIGGER unique_teacher_or_supervisor_for_a_subject
+  BEFORE INSERT OR UPDATE
+  ON admin.public.sujet
+  FOR EACH ROW when (NEW.idProfesseur IS NOT NULL OR NEW.idsuperviseur IS NOT NULL)
+    EXECUTE FUNCTION check_idprof_idsuperviseur();
 
 
 -- add insertion data
@@ -152,8 +181,8 @@ INSERT INTO Delivrable (typeFichier)
   VALUES ('pdf'),
         ('docx');
 INSERT INTO Etape (delai, description, idPeriode, idDelivrable)
-  VALUES ('2024-09-01', 'rendre le devoir 1', 1, 1),
-        ('2024-07-01', 'rendre le devoir 2', 2, 2);
+  VALUES ('2024-01-01', 'rendre le devoir 1', 1, 1),
+        ('2024-02-01', 'rendre le devoir 2', 2, 2);
 
 INSERT INTO Professeur (specialite, idPersonne, idPeriode)
   VALUES ('IA', 5, 1),
@@ -161,16 +190,13 @@ INSERT INTO Professeur (specialite, idPersonne, idPeriode)
 
 INSERT INTO UE (idue,nom, idProf)
   VALUES ('INFOB331','Introduction à la démarche scientifique', 1),
-        ('INFOMA451','Mémoire', 2),
-        ('INFOB318', 'Projet personnel', 1);
-INSERT INTO Cours (idUE, nom, idEtudiant)
-  VALUES ('INFOB331', 'Introduction à la démarche scientifique', 1),
-        ('INFOMA451', 'Mémoire', 2),
-        ('INFOB331', 'Introduction à la démarche scientifique', 3),
-        ('INFOMA451', 'Mémoire', 4);
-INSERT INTO Sujet (titre, descriptif, fichier, idPeriode, idProf,estPris,idCours)
-    VALUES ('La reproduction des insectes', 'Les insectes sont des animaux ovipares', NULL, 1, 1,TRUE,1),
-          ('L IA', 'L intelligence artificelle est un système informatique capable d apprendre par lui-même', NULL, 2, 2,TRUE,2);
+        ('INFOMA451','Mémoire', 2);
+INSERT INTO Cours (idUE, nom)
+  VALUES ('INFOB331', 'Introduction à la démarche scientifique'),
+        ('INFOMA451', 'Mémoire');
+INSERT INTO Sujet (titre, descriptif, fichier, idPeriode, idProfesseur,estPris,idCours,idSuperviseur)
+    VALUES ('La reproduction des insectes', 'Les insectes sont des animaux ovipares', NULL, 1, NULL,TRUE,1,1),
+          ('L IA', 'L intelligence artificelle est un système informatique capable d apprendre par lui-même', NULL, 2, 2,TRUE,2,NULL);
 INSERT INTO Etudiant (bloc, idPersonne, idSujet)
   VALUES (1, 1, 1),
         (2, 2, 2);
@@ -195,7 +221,12 @@ INSERT INTO Supervision (description, idSuperviseur, idUe)
 
 
 alter table Cours ADD FOREIGN KEY (idetudiant) REFERENCES Etudiant(idetudiant);
-alter table Sujet ADD FOREIGN KEY (idSuperviseur) REFERENCES Superviseur(idSuperviseur);
+
+Update Cours Set idetudiant = 1 where idCours = 1;
+UPDATE COURS SET idEtudiant = 2 where idCours = 2;
+
+
+
 
 
 
