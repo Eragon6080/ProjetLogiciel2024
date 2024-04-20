@@ -12,10 +12,9 @@ INSERT INTO test (name, archived)
 */
 
 -- lines to drop all tables
-/*
+
 drop schema public cascade;
 create schema public;
-*/
 
 
 -- create tables
@@ -83,20 +82,19 @@ CREATE TABLE Sujet(
   fichier TEXT, --  localisation du fichier de la proposition de sujet
   idPeriode INT NOT NULL DEFAULT 1,
   idProfesseur INT,
-  idCours INT NOT NULL DEFAULT 1,
   idSuperviseur INT,
+  idEtudiant INT,
+  idUE TEXT NOT NULL,
   FOREIGN KEY (idPeriode) REFERENCES Periode(idPeriode),
-  FOREIGN KEY (idProfesseur) REFERENCES Professeur(idProf),
-  FOREIGN KEY (idCours) REFERENCES Cours(idCours)
+  FOREIGN KEY (idProfesseur) REFERENCES Professeur(idProf)
+
 
 );
 CREATE TABLE Etudiant(
   idEtudiant INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   bloc INT NOT NULL check(bloc >= 1 and bloc <= 5),
   idPersonne INT NOT NULL,
-  idSujet INT UNIQUE,
-  FOREIGN KEY (idPersonne) REFERENCES Personne(idPersonne),
-  FOREIGN KEY (idSujet) REFERENCES Sujet(idSujet)
+  FOREIGN KEY (idPersonne) REFERENCES Personne(idPersonne)
 );
 CREATE TABLE Inscription(
   idInscription INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
@@ -111,6 +109,7 @@ CREATE TABLE FichierDelivrable(
   idEtudiant INT,
   idDelivrable INT,
   estRendu BOOLEAN NOT NULL DEFAULT FALSE,
+  note INT check ( note >= 0 and note <= 20),
   FOREIGN KEY (idEtudiant) REFERENCES Etudiant(idEtudiant),
   FOREIGN KEY (idDelivrable) REFERENCES Delivrable(idDelivrable)
 );
@@ -195,12 +194,12 @@ INSERT INTO UE (idue,nom, idProf)
 INSERT INTO Cours (idUE, nom)
   VALUES ('INFOB331', 'Introduction à la démarche scientifique'),
         ('INFOMA451', 'Mémoire');
-INSERT INTO Sujet (titre, descriptif, fichier, idPeriode, idProfesseur,estPris,idCours,idSuperviseur)
-    VALUES ('La reproduction des insectes', 'Les insectes sont des animaux ovipares', NULL, 1, NULL,TRUE,1,1),
-          ('L IA', 'L intelligence artificelle est un système informatique capable d apprendre par lui-même', NULL, 2, 2,TRUE,2,NULL);
-INSERT INTO Etudiant (bloc, idPersonne, idSujet)
-  VALUES (1, 1, 1),
-        (2, 2, 2);
+INSERT INTO Sujet (titre, descriptif, fichier, idPeriode, idProfesseur,estPris,idSuperviseur,idUE,idetudiant)
+    VALUES ('La reproduction des insectes', 'Les insectes sont des animaux ovipares', NULL, 1, NULL,TRUE,1,'INFOB331',1),
+          ('L IA', 'L intelligence artificelle est un système informatique capable d apprendre par lui-même', NULL, 2,1,FALSE,NULL,'INFOMA451',NULL);
+INSERT INTO Etudiant (bloc, idPersonne)
+  VALUES (1, 1 ),
+        (2, 2);
 INSERT INTO Etudiant(bloc, idPersonne)
       VALUES  (3, 3),
         (4, 4);
@@ -226,6 +225,9 @@ alter table Cours ADD FOREIGN KEY (idetudiant) REFERENCES Etudiant(idetudiant);
 Update Cours Set idetudiant = 1 where idCours = 1;
 UPDATE COURS SET idEtudiant = 2 where idCours = 2;
 
+alter table Sujet ADD FOREIGN KEY (idetudiant) REFERENCES Etudiant(idetudiant);
+alter table Sujet ADD FOREIGN KEY (idSuperviseur) REFERENCES Superviseur(idSuperviseur);
+alter table Sujet ADD FOREIGN KEY (idue) REFERENCES UE(idue);
 
 
 
