@@ -28,13 +28,15 @@
 \setbeamercolor{footline}{fg=gray}
 \setbeamercolor{progress bar}{fg=black}
 
+\setcounter{tocdepth}{1}
+
 %Adding footer
 \setbeamertemplate{frame footer}{\insertshortauthor~(\insertshortinstitute)}
 
 \graphicspath{ {../Images/}}
 
 %Set parameters for title page
-\title{PIMS : Sprint Review 3}
+\title{PIMS}
 \author[PIMS]{Luis Dierick \and Gaillard Matthys \and Bouncer Yassine \and Fundu Oliver \and Anderson Rosny \and Tom Marchal }
 \institute{Université de Namur}
 \date{\today}
@@ -46,8 +48,9 @@
 \end{frame}
 
 \begin{frame}{Table des matières}
-    \tableofcontents
+    \tableofcontents[]
 \end{frame}
+
 \section{Base de données}
 \begin{frame}{Base de données}
     \begin{enumerate}
@@ -85,5 +88,40 @@
         
     \end{figure}
 \end{frame}
+
+\section{Fonctionnalités}
+\subsection{Vue d'ensemble}
+
+\begin{frame}{Vue d'ensemble}
+    \begin{itemize}
+        \item Gestion des sujets
+        \begin{itemize}
+            \item CRUD
+            \item Réservation
+        \end{itemize} 
+        \item Gestion des cours
+        \begin{itemize}
+            \item Modalités 
+            \item Timeline + milestones
+        \end{itemize}
+        \item Interface dédiée aux administrateurs
+        \begin{itemize}
+            \item Gestion des rôles
+            \item Archivage 
+            \item Initialisation de la plateforme
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+
+\begin{frame}{Pourquoi PIMS ?}
+    \begin{itemize}
+        \item Technologies modernes
+        \item Plateforme synchronisée, automomatisée
+        \item Vues adaptatives par rapport aux rôles
+        \item[$\Longrightarrow$] \textbf{Facilité d'utilisation}
+    \end{itemize}
+\end{frame}
+
 
 \end{document}  
