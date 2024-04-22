@@ -1,4 +1,4 @@
-\documentclass[numbering=fraction]{beamer}
+\documentclass[numbering=fraction,10pt]{beamer}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -48,6 +48,22 @@
 \begin{frame}{Table des matières}
     \tableofcontents
 \end{frame}
+% Ne pas oublier d'expliquer rapidement comment on a procédé pour y arriver
+% Expliquer les différentes étapes de la réalisation du projet
+\section{Objectif de la mission}
+\begin{frame}{Objectif de la mission}
+    \begin{enumerate}
+        \item Création d'une application web permettant la gestion de délivrables pour un cours donnés.
+        \item Implémentation de la la gestion de la vie d'un délivrable (work)
+        \item Implication de plusieurs acteurs : 
+        \begin{itemize}
+            \item Etudiant : Peut s'inscrire à un cours, voir les cours auxquels il est inscrit, voir les échéances pour un cours et déposer un délivrable.
+            \item Professeur : Responsable d'un cours, ajouter des échéances, voir les délivrables déposés par les étudiants et les évaluer.
+            \item Superviseur : Aide à la gestion d'un cours. Peut soumettre des sujets et procéde à des évluations
+            \item Administrateur : Gère les utilisateurs au sens large, les cours et les ues.
+        \end{itemize}
+    \end{enumerate}
+\end{frame}
 \section{Base de données}
 \begin{frame}{Base de données}
     \begin{enumerate}
@@ -76,5 +92,27 @@
         \includegraphics[width=0.8\textwidth]{dbER.png}
         \caption{Schéma de la base de données}
     \end{figure}
+\end{frame}
+\section{Fonctionnalités}
+\subsection{Fonctionnalités : Gestion des inscriptions à un cours}
+\begin{frame}{Gestion des inscriptions à un cours}
+    \begin{enumerate}
+        \item Permet à un étudiant de s'inscrire à un cours
+        \item Choix parmi toutes les ues disponibles
+        \item Création d'une nouvelle occurrence de d'un cours
+        \begin{itemize}
+            \item Permet à un étudiant de s'inscrire à plusieurs cours
+            \item Mécanisme permettant de gérer le fait qu'un étudiant ne peut pas s'inscrire à un cours déjà suivi
+        \end{itemize}
+        \item Choix via des cartes.
+    \end{enumerate}
+\end{frame}
+\subsection{Fonctionnalités : Gestion des cours}
+\begin{frame}{Gestion des cours}
+    \begin{enumerate}
+        \item Permets à un étudiant de voir les cours auquels il est inscrit.
+        \item Visualisation grâce à des cartes.
+        \item Clic permettant de voir les échéances pour un cours.
+    \end{enumerate}
 \end{frame}
 \end{document}  
