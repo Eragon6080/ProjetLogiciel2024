@@ -12,10 +12,10 @@ INSERT INTO test (name, archived)
 */
 
 -- lines to drop all tables
-
+/*
 drop schema public cascade;
 create schema public;
-
+*/
 
 -- create tables
 CREATE TABLE Personne(
@@ -96,13 +96,7 @@ CREATE TABLE Etudiant(
   idPersonne INT NOT NULL,
   FOREIGN KEY (idPersonne) REFERENCES Personne(idPersonne)
 );
-CREATE TABLE Inscription(
-  idInscription INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  idEtudiant INT NOT NULL,
-  idCours INT NOT NULL,
-  FOREIGN KEY (idEtudiant) REFERENCES Etudiant(idEtudiant),
-  FOREIGN KEY (idCours) REFERENCES Cours(idCours)
-);
+
 CREATE TABLE FichierDelivrable(
   idFichier INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   fichier TEXT NOT NULL,
@@ -110,6 +104,7 @@ CREATE TABLE FichierDelivrable(
   idDelivrable INT,
   estRendu BOOLEAN NOT NULL DEFAULT FALSE,
   note INT check ( note >= 0 and note <= 20),
+  estConfidentiel BOOLEAN NOT NULL DEFAULT FALSE,
   FOREIGN KEY (idEtudiant) REFERENCES Etudiant(idEtudiant),
   FOREIGN KEY (idDelivrable) REFERENCES Delivrable(idDelivrable)
 );
@@ -203,11 +198,7 @@ INSERT INTO Etudiant (bloc, idPersonne)
 INSERT INTO Etudiant(bloc, idPersonne)
       VALUES  (3, 3),
         (4, 4);
-INSERT INTO Inscription (idEtudiant, idCours)
-  VALUES (1, 1),
-        (2, 2),
-        (3, 1),
-        (4, 2);
+
 
 INSERT INTO Superviseur (specialite, idPersonne)
   VALUES
