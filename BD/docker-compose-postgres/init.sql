@@ -80,10 +80,10 @@ CREATE TABLE Sujet(
   destination TEXT NOT NULL DEFAULT 'NULL',
   estPris BOOLEAN NOT NULL DEFAULT FALSE,
   fichier TEXT, --  localisation du fichier de la proposition de sujet
+  nbPersonnes INT NOT NULL DEFAULT 1,
   idPeriode INT NOT NULL DEFAULT 1,
   idProfesseur INT,
   idSuperviseur INT,
-  idEtudiant INT,
   idUE TEXT NOT NULL,
   FOREIGN KEY (idPeriode) REFERENCES Periode(idPeriode),
   FOREIGN KEY (idProfesseur) REFERENCES Professeur(idProf)
@@ -123,6 +123,13 @@ CREATE TABLE Supervision(
   idUe TEXT NOT NULL,
   FOREIGN KEY (idSuperviseur) REFERENCES Superviseur(idSuperviseur),
   FOREIGN KEY (idUe) REFERENCES UE(idUe)
+);
+CREATE TABLE SelectionSujet(
+  idSelection INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  idSujet INT NOT NULL,
+  idEtudiant INT NOT NULL,
+  FOREIGN KEY (idSujet) REFERENCES Sujet(idSujet),
+  FOREIGN KEY (idEtudiant) REFERENCES Etudiant(idEtudiant)
 );
 
 -- create a function
@@ -189,9 +196,9 @@ INSERT INTO UE (idue,nom, idProf)
 INSERT INTO Cours (idUE, nom)
   VALUES ('INFOB331', 'Introduction à la démarche scientifique'),
         ('INFOMA451', 'Mémoire');
-INSERT INTO Sujet (titre, descriptif, fichier, idPeriode, idProfesseur,estPris,idSuperviseur,idUE,idetudiant)
+INSERT INTO Sujet (titre, descriptif, fichier, idPeriode, idProfesseur,estPris,idSuperviseur,idUE,nbPersonnes)
     VALUES ('La reproduction des insectes', 'Les insectes sont des animaux ovipares', NULL, 1, NULL,TRUE,1,'INFOB331',1),
-          ('L IA', 'L intelligence artificelle est un système informatique capable d apprendre par lui-même', NULL, 2,1,FALSE,NULL,'INFOMA451',NULL);
+          ('L IA', 'L intelligence artificelle est un système informatique capable d apprendre par lui-même', NULL, 2,1,FALSE,NULL,'INFOMA451',2);
 INSERT INTO Etudiant (bloc, idPersonne)
   VALUES (1, 1 ),
         (2, 2);
@@ -210,13 +217,16 @@ INSERT INTO Supervision (description, idSuperviseur, idUe)
   ('Supervision de l UE INFOB331', 1, 'INFOB331'),
   ('Supervision de l UE INFOMA451', 2, 'INFOMA451');
 
+INSERT INTO SelectionSujet (idSujet, idEtudiant)
+  VALUES
+  (2,2);
+
 
 alter table Cours ADD FOREIGN KEY (idetudiant) REFERENCES Etudiant(idetudiant);
 
 Update Cours Set idetudiant = 1 where idCours = 1;
 UPDATE COURS SET idEtudiant = 2 where idCours = 2;
 
-alter table Sujet ADD FOREIGN KEY (idetudiant) REFERENCES Etudiant(idetudiant);
 alter table Sujet ADD FOREIGN KEY (idSuperviseur) REFERENCES Superviseur(idSuperviseur);
 alter table Sujet ADD FOREIGN KEY (idue) REFERENCES UE(idue);
 
