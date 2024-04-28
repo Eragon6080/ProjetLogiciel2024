@@ -12,10 +12,10 @@ INSERT INTO test (name, archived)
 */
 
 -- lines to drop all tables
-/*
+
 drop schema public cascade;
 create schema public;
-*/
+
 
 -- create tables
 CREATE TABLE Personne(
@@ -78,7 +78,7 @@ CREATE TABLE Sujet(
   titre TEXT NOT NULL,
   descriptif TEXT NOT NULL DEFAULT 'NULL',
   destination TEXT NOT NULL DEFAULT 'NULL',
-  estPris BOOLEAN NOT NULL DEFAULT FALSE,
+  estReserve BOOLEAN NOT NULL DEFAULT FALSE,
   fichier TEXT, --  localisation du fichier de la proposition de sujet
   nbPersonnes INT NOT NULL DEFAULT 1,
   idPeriode INT NOT NULL DEFAULT 1,
@@ -133,6 +133,7 @@ CREATE TABLE SelectionSujet(
 );
 
 -- create a function
+-- first trigger
 CREATE OR REPLACE FUNCTION check_idprof_idsuperviseur() RETURNS TRIGGER AS $$
      DECLARE idProf INT;
      DECLARE idSupervis INT;
@@ -155,6 +156,31 @@ BEGIN
     END IF;
 END;
 $$ LANGUAGE plpgsql;
+-- second trigger
+CREATE OR REPLACE FUNCTION check_not_below_for_assignation_for_a_subject() RETURNS TRIGGER AS $$
+      DECLARE nbPersonnesForSujet INT;
+      DECLARE nbPersonnesEffectif INT;
+      DECLARE est_reserve BOOLEAN;
+BEGIN
+  select nbPersonnes into nbPersonnesForSujet from sujet where Sujet.idSujet = NEW.idSujet;
+  select count(*) into nbPersonnesEffectif from selectionsujet where SelectionSujet.idSujet = NEW.idSujet and SelectionSujet.idEtudiant = NEW.idEtudiant;
+  select est_reserve into est_reserve from sujet where Sujet.idSujet = NEW.idSujet;
+
+  IF est_reserve = TRUE AND nbPersonnesForSujet = nbPersonnesEffectif THEN
+    RAISE EXCEPTION 'Le sujet est déjà pris';
+  END IF;
+  IF est_reserve = TRUE AND nbPersonnesEffectif < nbPersonnesForSujet THEN
+    RETURN 'Un sujet est considéré comme pris si le nombre de personnes pour ce sujet est atteint';
+  ELSE
+    IF nbPersonnesEffectif < nbPersonnesForSujet THEN
+      RETURN NEW;
+    ELSE
+      RAISE EXCEPTION 'Le nombre de personnes pour ce sujet est atteint';
+    END IF;
+  END IF;
+
+END;
+$$ LANGUAGE plpgsql;
 
 --create trigger
 CREATE TRIGGER unique_teacher_or_supervisor_for_a_subject
@@ -162,6 +188,12 @@ CREATE TRIGGER unique_teacher_or_supervisor_for_a_subject
   ON admin.public.sujet
   FOR EACH ROW when (NEW.idProfesseur IS NOT NULL OR NEW.idsuperviseur IS NOT NULL)
     EXECUTE FUNCTION check_idprof_idsuperviseur();
+
+CREATE TRIGGER not_below_for_assignation_for_a_subject
+  BEFORE INSERT OR UPDATE
+  ON admin.public.selectionsujet
+  FOR EACH ROW when (NEW.idSujet IS NOT NULL AND NEW.idEtudiant IS NOT NULL)
+    EXECUTE FUNCTION check_not_below_for_assignation_for_a_subject();
 
 
 -- add insertion data
@@ -196,8 +228,8 @@ INSERT INTO UE (idue,nom, idProf)
 INSERT INTO Cours (idUE, nom)
   VALUES ('INFOB331', 'Introduction à la démarche scientifique'),
         ('INFOMA451', 'Mémoire');
-INSERT INTO Sujet (titre, descriptif, fichier, idPeriode, idProfesseur,estPris,idSuperviseur,idUE,nbPersonnes)
-    VALUES ('La reproduction des insectes', 'Les insectes sont des animaux ovipares', NULL, 1, NULL,TRUE,1,'INFOB331',1),
+INSERT INTO Sujet (titre, descriptif, fichier, idPeriode, idProfesseur,estReserve,idSuperviseur,idUE,nbPersonnes)
+    VALUES ('La reproduction des insectes', 'Les insectes sont des animaux ovipares', NULL, 1, NULL,FALSE,1,'INFOB331',1),
           ('L IA', 'L intelligence artificelle est un système informatique capable d apprendre par lui-même', NULL, 2,1,FALSE,NULL,'INFOMA451',2);
 INSERT INTO Etudiant (bloc, idPersonne)
   VALUES (1, 1 ),
