@@ -154,32 +154,49 @@ BEGIN
     IF NEW.idprofesseur IS NOT NULL and NEW.idsuperviseur IS NULL THEN
         RETURN NEW;
     END IF;
-END;
+END
 $$ LANGUAGE plpgsql;
 -- second trigger
 CREATE OR REPLACE FUNCTION check_not_below_for_assignation_for_a_subject() RETURNS TRIGGER AS $$
       DECLARE nbPersonnesForSujet INT;
       DECLARE nbPersonnesEffectif INT;
       DECLARE est_reserve BOOLEAN;
+      DECLARE nbPersonneAffecte INT;
 BEGIN
   select nbPersonnes into nbPersonnesForSujet from sujet where Sujet.idSujet = NEW.idSujet;
-  select count(*) into nbPersonnesEffectif from selectionsujet where SelectionSujet.idSujet = NEW.idSujet and SelectionSujet.idEtudiant = NEW.idEtudiant;
+  select count(*) into nbPersonnesEffectif from selectionsujet where SelectionSujet.idSujet = NEW.idSujet;
   select est_reserve into est_reserve from sujet where Sujet.idSujet = NEW.idSujet;
 
-  IF est_reserve = TRUE AND nbPersonnesForSujet = nbPersonnesEffectif THEN
+  IF est_reserve = TRUE THEN
     RAISE EXCEPTION 'Le sujet est déjà pris';
-  END IF;
-  IF est_reserve = TRUE AND nbPersonnesEffectif < nbPersonnesForSujet THEN
-    RETURN 'Un sujet est considéré comme pris si le nombre de personnes pour ce sujet est atteint';
   ELSE
-    IF nbPersonnesEffectif < nbPersonnesForSujet THEN
+    nbPersonneAffecte := nbPersonnesForSujet - nbPersonnesEffectif;
+    IF nbPersonneAffecte >= 1 THEN
       RETURN NEW;
     ELSE
       RAISE EXCEPTION 'Le nombre de personnes pour ce sujet est atteint';
     END IF;
   END IF;
 
-END;
+END
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION set_reserve_to_true() RETURNS TRIGGER AS $$
+    DECLARE nbPersonnesForSujet INT;
+    DECLARE nbPersonnesEffectif INT;
+    DECLARE nbPersonneAffecte INT;
+BEGIN
+    select nbPersonnes into nbPersonnesForSujet from sujet where Sujet.idSujet = NEW.idSujet;
+    select count(*) into nbPersonnesEffectif from selectionsujet where SelectionSujet.idSujet = NEW.idSujet;
+
+    nbPersonneAffecte := nbPersonnesForSujet - nbPersonnesEffectif;
+
+    IF nbPersonneAffecte = 0 THEN
+        RAISE NOTICE '%', nbPersonneAffecte;
+        UPDATE Sujet SET estreserve = TRUE WHERE idSujet = NEW.idSujet;        RETURN NEW;
+    END IF;
+    RETURN NEW;
+END
 $$ LANGUAGE plpgsql;
 
 --create trigger
@@ -192,9 +209,14 @@ CREATE TRIGGER unique_teacher_or_supervisor_for_a_subject
 CREATE TRIGGER not_below_for_assignation_for_a_subject
   BEFORE INSERT OR UPDATE
   ON admin.public.selectionsujet
-  FOR EACH ROW when (NEW.idSujet IS NOT NULL AND NEW.idEtudiant IS NOT NULL)
+  FOR EACH ROW when (NEW.idSujet IS NOT NULL OR NEW.idEtudiant IS NOT NULL)
     EXECUTE FUNCTION check_not_below_for_assignation_for_a_subject();
 
+CREATE TRIGGER est_reserve
+  BEFORE INSERT OR UPDATE
+  ON admin.public.selectionsujet
+  FOR EACH ROW when ( NEW.idSujet IS NOT NULL OR NEW.idEtudiant IS NOT NULL)
+    EXECUTE FUNCTION set_reserve_to_true();
 
 -- add insertion data
 INSERT INTO Personne (nom, prenom, mail,password, role)
