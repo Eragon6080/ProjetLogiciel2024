@@ -12,9 +12,10 @@ INSERT INTO test (name, archived)
 */
 
 -- lines to drop all tables
-
+/*
 drop schema public cascade;
 create schema public;
+*/
 
 
 -- create tables
@@ -192,8 +193,9 @@ BEGIN
     nbPersonneAffecte := nbPersonnesForSujet - nbPersonnesEffectif;
 
     IF nbPersonneAffecte = 0 THEN
-        RAISE NOTICE '%', nbPersonneAffecte;
-        UPDATE Sujet SET estreserve = TRUE WHERE idSujet = NEW.idSujet;        RETURN NEW;
+        -- RAISE NOTICE '%', nbPersonneAffecte; Cette ligne permet d'afficher des informations à la console
+        UPDATE Sujet SET estreserve = TRUE WHERE idSujet = NEW.idSujet;        
+        RETURN NEW;
     END IF;
     RETURN NEW;
 END
