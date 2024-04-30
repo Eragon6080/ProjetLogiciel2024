@@ -204,19 +204,19 @@ $$ LANGUAGE plpgsql;
 --create trigger
 CREATE TRIGGER unique_teacher_or_supervisor_for_a_subject
   BEFORE INSERT OR UPDATE
-  ON admin.public.sujet
+  ON sujet
   FOR EACH ROW when (NEW.idProfesseur IS NOT NULL OR NEW.idsuperviseur IS NOT NULL)
     EXECUTE FUNCTION check_idprof_idsuperviseur();
 
 CREATE TRIGGER not_below_for_assignation_for_a_subject
   BEFORE INSERT OR UPDATE
-  ON admin.public.selectionsujet
+  ON selectionsujet
   FOR EACH ROW when (NEW.idSujet IS NOT NULL OR NEW.idEtudiant IS NOT NULL)
     EXECUTE FUNCTION check_not_below_for_assignation_for_a_subject();
 
 CREATE TRIGGER est_reserve
   BEFORE INSERT OR UPDATE
-  ON admin.public.selectionsujet
+  ON selectionsujet
   FOR EACH ROW when ( NEW.idSujet IS NOT NULL OR NEW.idEtudiant IS NOT NULL)
     EXECUTE FUNCTION set_reserve_to_true();
 
