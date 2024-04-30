@@ -44,7 +44,8 @@ CREATE TABLE Periode(
   );
 CREATE TABLE Etape(
   idEtape INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  delai DATE NOT NULL,
+  dateDebut DATE NOT NULL,
+  dateFin DATE NOT NULL,
   description TEXT NOT NULL,
   idPeriode INT NOT NULL,
   idDelivrable INT,
@@ -132,6 +133,16 @@ CREATE TABLE SelectionSujet(
   FOREIGN KEY (idSujet) REFERENCES Sujet(idSujet),
   FOREIGN KEY (idEtudiant) REFERENCES Etudiant(idEtudiant)
 );
+
+CREATE TABLE EtapeUe(
+  idEtapeUe INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  idEtape INT NOT NULL,
+  idUe TEXT NOT NULL,
+  etapeCourante BOOLEAN NOT NULL DEFAULT FALSE,
+  FOREIGN KEY (idEtape) REFERENCES Etape(idEtape),
+  FOREIGN KEY (idUe) REFERENCES UE(idUe)
+);
+
 
 -- create a function
 -- first trigger
@@ -238,9 +249,9 @@ INSERT INTO Periode (annee)
 INSERT INTO Delivrable (typeFichier)
   VALUES ('pdf'),
         ('docx');
-INSERT INTO Etape (delai, description, idPeriode, idDelivrable)
-  VALUES ('2024-01-01', 'rendre le devoir 1', 1, 1),
-        ('2024-02-01', 'rendre le devoir 2', 2, 2);
+INSERT INTO Etape (dateDebut, dateFin, description, idPeriode, idDelivrable)
+  VALUES ('2023-09-01','2024-01-01', 'rendre le devoir de IDS', 1, 1),
+        ('2023-09-01','2024-02-01', 'rendre le mémoire', 2, 2);
 
 INSERT INTO Professeur (specialite, idPersonne, idPeriode)
   VALUES ('IA', 5, 1),
@@ -276,6 +287,10 @@ INSERT INTO Supervision (description, idSuperviseur, idUe)
 INSERT INTO SelectionSujet (idSujet, idEtudiant)
   VALUES
   (2,2);
+  
+INSERT INTO EtapeUe (idEtape, idUe, etapeCourante)
+  VALUES (1, 'INFOB331', TRUE),
+        (2, 'INFOMA451', TRUE);
 
 
 alter table Cours ADD FOREIGN KEY (idetudiant) REFERENCES Etudiant(idetudiant);
