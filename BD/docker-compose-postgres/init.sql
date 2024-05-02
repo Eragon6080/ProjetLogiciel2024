@@ -66,6 +66,7 @@ CREATE TABLE UE(
   idue TEXT PRIMARY KEY, -- matricule de l'UE
   nom TEXT NOT NULL,
   idProf INT NOT NULL,
+  isOpen BOOLEAN NOT NULL DEFAULT FALSE,
   FOREIGN KEY (idProf) REFERENCES Professeur(idProf)
 );
 CREATE TABLE Cours(
@@ -251,8 +252,8 @@ INSERT INTO Delivrable (typeFichier)
   VALUES ('pdf'),
         ('docx');
 INSERT INTO Etape (dateDebut, dateFin, titre, description, idPeriode, idDelivrable)
-  VALUES ('2023-09-01','2024-01-01', 'Délivrable final', 'Rendre le travail final sous forme d un fichier pdf (max 30 pages)', 1, 1),
-        ('2023-09-01','2024-02-01', 'Choisir le mémoire', 'Veuillez choisir un sujet de mémoire (top 5). Si votre sujet est déjà reservé, ne faites rien !', 2, 2),
+  VALUES ('2023-09-01','2024-01-01', 'Délivrable final', 'Rendre le travail final sous forme d''un fichier pdf (max 30 pages)', 1, 1),
+        ('2023-09-01','2024-02-01', 'Choisir le mémoire', 'Veuillez choisir un sujet de mémoire (top 5). Si votre sujet est déjà reservé, ne faites rien !', 2, NULL),
          ('2024-02-01','2024-03-01', 'Etat de l''art', 'Rendre l''état de l''art de votre mémoire.', 2, 2),
          ('2024-03-01','2024-04-01', 'Travail final', 'Rendre le travail final sous forme d un fichier pdf (max 150 pages)', 2, 2);
 
