@@ -251,7 +251,9 @@ INSERT INTO Delivrable (typeFichier)
         ('docx');
 INSERT INTO Etape (dateDebut, dateFin, description, idPeriode, idDelivrable)
   VALUES ('2023-09-01','2024-01-01', 'rendre le devoir de IDS', 1, 1),
-        ('2023-09-01','2024-02-01', 'rendre le mémoire', 2, 2);
+        ('2023-09-01','2024-02-01', 'choisir le mémoire', 2, 2),
+         ('2024-02-01','2024-03-01', 'rendre le mémoire 1', 2, 2),
+         ('2024-03-01','2024-04-01', 'rendre le mémoire 2', 2, 2);
 
 INSERT INTO Professeur (specialite, idPersonne, idPeriode)
   VALUES ('IA', 5, 1),
@@ -290,7 +292,9 @@ INSERT INTO SelectionSujet (idSujet, idEtudiant)
   
 INSERT INTO EtapeUe (idEtape, idUe, etapeCourante)
   VALUES (1, 'INFOB331', TRUE),
-        (2, 'INFOMA451', TRUE);
+        (2, 'INFOMA451', TRUE),
+        (3, 'INFOMA451', FALSE),
+        (4, 'INFOMA451', FALSE);
 
 
 alter table Cours ADD FOREIGN KEY (idetudiant) REFERENCES Etudiant(idetudiant);
