@@ -267,7 +267,7 @@ INSERT INTO Cours (idUE, nom)
         ('INFOMA451', 'Mémoire');
 INSERT INTO Sujet (titre, descriptif, fichier, idPeriode, idProfesseur,estReserve,idSuperviseur,idUE,nbPersonnes)
     VALUES ('La reproduction des insectes', 'Les insectes sont des animaux ovipares', NULL, 1, NULL,FALSE,1,'INFOB331',1),
-          ('L IA', 'L intelligence artificelle est un système informatique capable d apprendre par lui-même', NULL, 2,1,FALSE,NULL,'INFOMA451',2);
+          ('L IA', 'L intelligence artificelle est un système informatique capable d apprendre par lui-même', NULL, 2,1,TRUE,NULL,'INFOMA451',2);
 INSERT INTO Etudiant (bloc, idPersonne)
   VALUES (1, 1 ),
         (2, 2);
