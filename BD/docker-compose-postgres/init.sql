@@ -46,6 +46,7 @@ CREATE TABLE Etape(
   idEtape INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   dateDebut DATE NOT NULL,
   dateFin DATE NOT NULL,
+  titre TEXT NOT NULL,
   description TEXT NOT NULL,
   idPeriode INT NOT NULL,
   idDelivrable INT,
@@ -249,11 +250,11 @@ INSERT INTO Periode (annee)
 INSERT INTO Delivrable (typeFichier)
   VALUES ('pdf'),
         ('docx');
-INSERT INTO Etape (dateDebut, dateFin, description, idPeriode, idDelivrable)
-  VALUES ('2023-09-01','2024-01-01', 'rendre le devoir de IDS', 1, 1),
-        ('2023-09-01','2024-02-01', 'choisir le mémoire', 2, 2),
-         ('2024-02-01','2024-03-01', 'rendre le mémoire 1', 2, 2),
-         ('2024-03-01','2024-04-01', 'rendre le mémoire 2', 2, 2);
+INSERT INTO Etape (dateDebut, dateFin, titre, description, idPeriode, idDelivrable)
+  VALUES ('2023-09-01','2024-01-01', 'Délivrable final', 'Rendre le travail final sous forme d un fichier pdf (max 30 pages)', 1, 1),
+        ('2023-09-01','2024-02-01', 'Choisir le mémoire', 'Veuillez choisir un sujet de mémoire (top 5). Si votre sujet est déjà reservé, ne faites rien !', 2, 2),
+         ('2024-02-01','2024-03-01', 'Etat de l''art', 'Rendre l''état de l''art de votre mémoire.', 2, 2),
+         ('2024-03-01','2024-04-01', 'Travail final', 'Rendre le travail final sous forme d un fichier pdf (max 150 pages)', 2, 2);
 
 INSERT INTO Professeur (specialite, idPersonne, idPeriode)
   VALUES ('IA', 5, 1),
