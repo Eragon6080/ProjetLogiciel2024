@@ -66,7 +66,6 @@ CREATE TABLE UE(
   idue TEXT PRIMARY KEY, -- matricule de l'UE
   nom TEXT NOT NULL,
   idProf INT NOT NULL,
-  isOpen BOOLEAN NOT NULL DEFAULT FALSE,
   FOREIGN KEY (idProf) REFERENCES Professeur(idProf)
 );
 CREATE TABLE Cours(
@@ -306,8 +305,3 @@ UPDATE COURS SET idEtudiant = 2 where idCours = 2;
 
 alter table Sujet ADD FOREIGN KEY (idSuperviseur) REFERENCES Superviseur(idSuperviseur);
 alter table Sujet ADD FOREIGN KEY (idue) REFERENCES UE(idue);
-
-
-
-
-
