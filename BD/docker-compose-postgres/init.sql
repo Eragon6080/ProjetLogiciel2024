@@ -66,6 +66,7 @@ CREATE TABLE UE(
   idue TEXT PRIMARY KEY, -- matricule de l'UE
   nom TEXT NOT NULL,
   idProf INT NOT NULL,
+  isOpen BOOLEAN NOT NULL DEFAULT FALSE,
   FOREIGN KEY (idProf) REFERENCES Professeur(idProf)
 );
 CREATE TABLE Cours(
