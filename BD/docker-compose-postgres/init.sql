@@ -132,6 +132,7 @@ CREATE TABLE SelectionSujet(
   idSelection INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   idSujet INT NOT NULL,
   idEtudiant INT NOT NULL,
+  is_involved BOOLEAN DEFAULT FALSE,
   FOREIGN KEY (idSujet) REFERENCES Sujet(idSujet),
   FOREIGN KEY (idEtudiant) REFERENCES Etudiant(idEtudiant)
 );
@@ -233,6 +234,22 @@ CREATE TRIGGER est_reserve
   FOR EACH ROW when ( NEW.idSujet IS NOT NULL OR NEW.idEtudiant IS NOT NULL)
     EXECUTE FUNCTION set_reserve_to_true();
 
+
+CREATE OR REPLACE FUNCTION set_is_involved() RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.idEtudiant IS NOT NULL AND NEW.idSujet IS NOT NULL THEN
+    NEW.is_involved = TRUE;
+  END IF;
+  RETURN NEW;
+END
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER set_is_involved
+  BEFORE INSERT OR UPDATE
+  ON SelectionSujet
+  FOR EACH ROW
+  EXECUTE FUNCTION set_is_involved();
+
 -- add insertion data
 INSERT INTO Personne (nom, prenom, mail,password, role)
   VALUES ('Doe', 'John', 'john.doe@gmail.com', 'pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=',
@@ -288,9 +305,10 @@ INSERT INTO Supervision (description, idSuperviseur, idUe)
   ('Supervision de l UE INFOB331', 1, 'INFOB331'),
   ('Supervision de l UE INFOMA451', 2, 'INFOMA451');
 
-INSERT INTO SelectionSujet (idSujet, idEtudiant)
+INSERT INTO SelectionSujet (idSujet, idEtudiant, is_involved)
   VALUES
-  (2,2);
+  (2,2, TRUE),
+  (1,3, TRUE);
   
 INSERT INTO EtapeUe (idEtape, idUe, etapeCourante)
   VALUES (1, 'INFOB331', TRUE),
@@ -306,3 +324,4 @@ UPDATE COURS SET idEtudiant = 2 where idCours = 2;
 
 alter table Sujet ADD FOREIGN KEY (idSuperviseur) REFERENCES Superviseur(idSuperviseur);
 alter table Sujet ADD FOREIGN KEY (idue) REFERENCES UE(idue);
+ALTER TABLE SelectionSujet ADD COLUMN is_involved BOOLEAN DEFAULT FALSE;
