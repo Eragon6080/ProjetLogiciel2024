@@ -171,8 +171,10 @@ BEGIN
     END IF;
 END
 $$ LANGUAGE plpgsql;
--- second trigger
-CREATE OR REPLACE FUNCTION check_not_below_for_assignation_for_a_subject() RETURNS TRIGGER AS $$
+create function check_not_below_for_assignation_for_a_subject() returns trigger
+    language plpgsql
+as
+$$
       DECLARE nbPersonnesForSujet INT;
       DECLARE nbPersonnesEffectif INT;
       DECLARE est_reserve BOOLEAN;
@@ -180,7 +182,7 @@ CREATE OR REPLACE FUNCTION check_not_below_for_assignation_for_a_subject() RETUR
 BEGIN
   select nbPersonnes into nbPersonnesForSujet from sujet where Sujet.idSujet = NEW.idSujet;
   select count(*) into nbPersonnesEffectif from selectionsujet where SelectionSujet.idSujet = NEW.idSujet;
-  select est_reserve into est_reserve from sujet where Sujet.idSujet = NEW.idSujet;
+  select estreserve into est_reserve from sujet where Sujet.idSujet = NEW.idSujet;
 
   IF est_reserve = TRUE THEN
     RAISE EXCEPTION 'Le sujet est déjà pris';
@@ -194,7 +196,11 @@ BEGIN
   END IF;
 
 END
-$$ LANGUAGE plpgsql;
+$$;
+
+alter function check_not_below_for_assignation_for_a_subject() owner to admin;
+
+
 
 CREATE OR REPLACE FUNCTION set_reserve_to_true() RETURNS TRIGGER AS $$
     DECLARE nbPersonnesForSujet INT;
