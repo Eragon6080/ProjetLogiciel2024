@@ -15,7 +15,8 @@ INSERT INTO test (name, archived)
 /*
 drop schema public cascade;
 create schema public;
-*/
+ */
+
 
 
 -- create tables
@@ -187,7 +188,8 @@ INSERT INTO UE (idue,nom, idProf)
         ('INFOMA451','Mémoire', 2);
 INSERT INTO Cours (idUE, nom)
   VALUES ('INFOB331', 'Introduction à la démarche scientifique'),
-        ('INFOMA451', 'Mémoire');
+        ('INFOMA451', 'Mémoire'),
+        ('INFOB331', 'Introduction à la démarche scientifique');
 INSERT INTO Sujet (titre, descriptif, fichier, idPeriode, idProfesseur,estReserve,idSuperviseur,idUE,nbPersonnes)
     VALUES ('La reproduction des insectes', 'Les insectes sont des animaux ovipares', NULL, 1, NULL,FALSE,1,'INFOB331',1),
           ('L IA', 'L intelligence artificelle est un système informatique capable d apprendre par lui-même', NULL, 2,1,TRUE,NULL,'INFOMA451',2);
@@ -223,8 +225,9 @@ INSERT INTO EtapeUe (idEtape, idUe, etapeCourante)
 
 alter table Cours ADD FOREIGN KEY (idetudiant) REFERENCES Etudiant(idetudiant);
 
-Update Cours Set idetudiant = 1 where idCours = 1;
+UPDATE Cours SET idetudiant = 1 where idCours = 1;
 UPDATE COURS SET idEtudiant = 2 where idCours = 2;
+UPDATE COURS SET idEtudiant = 3 where idCours = 1;
 
 alter table Sujet ADD FOREIGN KEY (idSuperviseur) REFERENCES Superviseur(idSuperviseur);
 alter table Sujet ADD FOREIGN KEY (idue) REFERENCES UE(idue);
