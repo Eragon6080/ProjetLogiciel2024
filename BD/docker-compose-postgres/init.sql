@@ -147,114 +147,12 @@ CREATE TABLE EtapeUe(
 );
 
 
--- create a function
--- first trigger
-CREATE OR REPLACE FUNCTION check_idprof_idsuperviseur() RETURNS TRIGGER AS $$
-     DECLARE idProf INT;
-     DECLARE idSupervis INT;
-BEGIN
-   select idProfesseur into idProf from sujet where Sujet.idProfesseur = NEW.idProfesseur;
-   select Sujet.idSuperviseur into idSupervis from sujet where Sujet.idSuperviseur = NEW.idSuperviseur;
-
-    IF NEW.idprofesseur IS NOT NULL AND NEW.idsuperviseur IS NOT NULL THEN
-        RAISE EXCEPTION 'Un sujet ne peut pas avoir à la fois un idProf et un idsuperviseur. Un des deux doit être NULL.';
-    END IF;
-
-   IF idProf IS NOT NULL and idSupervis IS NULL THEN
-       RETURN NEW;
-    END IF;
-   IF NEW.idprofesseur is NULL and NEW.idsuperviseur is not NULL THEN
-       RETURN NEW;
-    END IF;
-    IF NEW.idprofesseur IS NOT NULL and NEW.idsuperviseur IS NULL THEN
-        RETURN NEW;
-    END IF;
-END
-$$ LANGUAGE plpgsql;
-create function check_not_below_for_assignation_for_a_subject() returns trigger
-    language plpgsql
-as
-$$
-      DECLARE nbPersonnesForSujet INT;
-      DECLARE nbPersonnesEffectif INT;
-      DECLARE est_reserve BOOLEAN;
-      DECLARE nbPersonneAffecte INT;
-BEGIN
-  select nbPersonnes into nbPersonnesForSujet from sujet where Sujet.idSujet = NEW.idSujet;
-  select count(*) into nbPersonnesEffectif from selectionsujet where SelectionSujet.idSujet = NEW.idSujet;
-  select estreserve into est_reserve from sujet where Sujet.idSujet = NEW.idSujet;
-
-  IF est_reserve = TRUE THEN
-    RAISE EXCEPTION 'Le sujet est déjà pris';
-  ELSE
-    nbPersonneAffecte := nbPersonnesForSujet - nbPersonnesEffectif;
-    IF nbPersonneAffecte >= 1 THEN
-      RETURN NEW;
-    ELSE
-      RAISE EXCEPTION 'Le nombre de personnes pour ce sujet est atteint';
-    END IF;
-  END IF;
-
-END
-$$;
-
-alter function check_not_below_for_assignation_for_a_subject() owner to admin;
 
 
 
-CREATE OR REPLACE FUNCTION set_reserve_to_true() RETURNS TRIGGER AS $$
-    DECLARE nbPersonnesForSujet INT;
-    DECLARE nbPersonnesEffectif INT;
-    DECLARE nbPersonneAffecte INT;
-BEGIN
-    select nbPersonnes into nbPersonnesForSujet from sujet where Sujet.idSujet = NEW.idSujet;
-    select count(*) into nbPersonnesEffectif from selectionsujet where SelectionSujet.idSujet = NEW.idSujet;
-
-    nbPersonneAffecte := nbPersonnesForSujet - nbPersonnesEffectif;
-
-    IF nbPersonneAffecte = 0 THEN
-        -- RAISE NOTICE '%', nbPersonneAffecte; Cette ligne permet d'afficher des informations à la console
-        UPDATE Sujet SET estreserve = TRUE WHERE idSujet = NEW.idSujet;        
-        RETURN NEW;
-    END IF;
-    RETURN NEW;
-END
-$$ LANGUAGE plpgsql;
-
---create trigger
-CREATE TRIGGER unique_teacher_or_supervisor_for_a_subject
-  BEFORE INSERT OR UPDATE
-  ON sujet
-  FOR EACH ROW when (NEW.idProfesseur IS NOT NULL OR NEW.idsuperviseur IS NOT NULL)
-    EXECUTE FUNCTION check_idprof_idsuperviseur();
-
-CREATE TRIGGER not_below_for_assignation_for_a_subject
-  BEFORE INSERT OR UPDATE
-  ON selectionsujet
-  FOR EACH ROW when (NEW.idSujet IS NOT NULL OR NEW.idEtudiant IS NOT NULL)
-    EXECUTE FUNCTION check_not_below_for_assignation_for_a_subject();
-
-CREATE TRIGGER est_reserve
-  BEFORE INSERT OR UPDATE
-  ON selectionsujet
-  FOR EACH ROW when ( NEW.idSujet IS NOT NULL OR NEW.idEtudiant IS NOT NULL)
-    EXECUTE FUNCTION set_reserve_to_true();
 
 
-CREATE OR REPLACE FUNCTION set_is_involved() RETURNS TRIGGER AS $$
-BEGIN
-  IF NEW.idEtudiant IS NOT NULL AND NEW.idSujet IS NOT NULL THEN
-    NEW.is_involved = TRUE;
-  END IF;
-  RETURN NEW;
-END
-$$ LANGUAGE plpgsql;
 
-CREATE TRIGGER set_is_involved
-  BEFORE INSERT OR UPDATE
-  ON SelectionSujet
-  FOR EACH ROW
-  EXECUTE FUNCTION set_is_involved();
 
 -- add insertion data
 INSERT INTO Personne (nom, prenom, mail,password, role)
@@ -315,7 +213,7 @@ INSERT INTO SelectionSujet (idSujet, idEtudiant, is_involved)
   VALUES
   (2,2, TRUE),
   (1,3, TRUE);
-  
+
 INSERT INTO EtapeUe (idEtape, idUe, etapeCourante)
   VALUES (1, 'INFOB331', TRUE),
         (2, 'INFOMA451', TRUE),
@@ -330,4 +228,92 @@ UPDATE COURS SET idEtudiant = 2 where idCours = 2;
 
 alter table Sujet ADD FOREIGN KEY (idSuperviseur) REFERENCES Superviseur(idSuperviseur);
 alter table Sujet ADD FOREIGN KEY (idue) REFERENCES UE(idue);
-ALTER TABLE SelectionSujet ADD COLUMN is_involved BOOLEAN DEFAULT FALSE;
+
+
+
+-- create a function
+-- first trigger
+CREATE OR REPLACE FUNCTION check_idprof_idsuperviseur() RETURNS TRIGGER AS $$
+     DECLARE idProf INT;
+     DECLARE idSupervis INT;
+BEGIN
+   select idProfesseur into idProf from sujet where Sujet.idProfesseur = NEW.idProfesseur;
+   select Sujet.idSuperviseur into idSupervis from sujet where Sujet.idSuperviseur = NEW.idSuperviseur;
+
+    IF NEW.idprofesseur IS NOT NULL AND NEW.idsuperviseur IS NOT NULL THEN
+        RAISE EXCEPTION 'Un sujet ne peut pas avoir à la fois un idProf et un idsuperviseur. Un des deux doit être NULL.';
+    END IF;
+
+   IF idProf IS NOT NULL and idSupervis IS NULL THEN
+       RETURN NEW;
+    END IF;
+   IF NEW.idprofesseur is NULL and NEW.idsuperviseur is not NULL THEN
+       RETURN NEW;
+    END IF;
+    IF NEW.idprofesseur IS NOT NULL and NEW.idsuperviseur IS NULL THEN
+        RETURN NEW;
+    END IF;
+END
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION check_not_below_for_assignation_for_a_subject() returns TRIGGER AS $$
+
+      DECLARE nbPersonnesForSujet INT;
+      DECLARE nbPersonnesEffectif INT;
+      DECLARE est_reserve BOOLEAN;
+      DECLARE nbPersonneAffecte INT;
+BEGIN
+  select nbPersonnes into nbPersonnesForSujet from sujet where Sujet.idSujet = NEW.idSujet;
+  select count(*) into nbPersonnesEffectif from selectionsujet where SelectionSujet.idSujet = NEW.idSujet;
+  select estreserve into est_reserve from sujet where Sujet.idSujet = NEW.idSujet;
+
+  IF est_reserve = TRUE THEN
+    RAISE EXCEPTION 'Le sujet est déjà pris';
+  ELSE
+    nbPersonneAffecte := nbPersonnesForSujet - nbPersonnesEffectif;
+    IF nbPersonneAffecte > 1 THEN
+      RETURN NEW;
+    ELSE
+      IF nbPersonneAffecte = 1 THEN
+        UPDATE sujet SET estReserve = TRUE WHERE Sujet.idSujet = NEW.idSujet;
+        RETURN NEW;
+      ELSE
+        RAISE EXCEPTION 'Le nombre de personnes pour ce sujet est atteint';
+      END IF;
+    END IF;
+  END IF;
+
+END
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION set_is_involved() RETURNS TRIGGER AS $$
+BEGIN
+  IF NEW.idEtudiant IS NOT NULL AND NEW.idSujet IS NOT NULL THEN
+    NEW.is_involved = TRUE;
+  END IF;
+  RETURN NEW;
+END
+$$ LANGUAGE plpgsql;
+
+
+
+
+
+--create trigger
+CREATE TRIGGER unique_teacher_or_supervisor_for_a_subject
+  BEFORE INSERT OR UPDATE
+  ON sujet
+  FOR EACH ROW when (NEW.idProfesseur IS NOT NULL OR NEW.idsuperviseur IS NOT NULL)
+    EXECUTE FUNCTION check_idprof_idsuperviseur();
+
+CREATE TRIGGER not_below_for_assignation_for_a_subject
+  BEFORE INSERT OR UPDATE
+  ON selectionsujet
+  FOR EACH ROW when (NEW.idSujet IS NOT NULL OR NEW.idEtudiant IS NOT NULL)
+    EXECUTE FUNCTION check_not_below_for_assignation_for_a_subject();
+
+CREATE TRIGGER set_is_involved
+  BEFORE INSERT OR UPDATE
+  ON SelectionSujet
+  FOR EACH ROW
+  EXECUTE FUNCTION set_is_involved();
