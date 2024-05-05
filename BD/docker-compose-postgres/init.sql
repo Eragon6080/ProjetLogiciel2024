@@ -259,7 +259,7 @@ UPDATE COURS SET idEtudiant = 3 where idCours = 1;
 
 alter table Sujet ADD FOREIGN KEY (idSuperviseur) REFERENCES Superviseur(idSuperviseur);
 alter table Sujet ADD FOREIGN KEY (idue) REFERENCES UE(idue);
-ALTER TABLE Sujet ADD COLUMN mark INT DEFAULT 0;
+
 
 
 -- create a function
