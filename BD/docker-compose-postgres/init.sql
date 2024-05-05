@@ -84,6 +84,7 @@ CREATE TABLE Sujet(
   destination TEXT NOT NULL DEFAULT 'NULL',
   estReserve BOOLEAN NOT NULL DEFAULT FALSE,
   fichier TEXT, --  localisation du fichier de la proposition de sujet
+  mark INT DEFAULT 0 check (mark >= 0 and mark <= 20),
   nbPersonnes INT NOT NULL DEFAULT 1,
   idPeriode INT NOT NULL DEFAULT 1,
   idProfesseur INT,
