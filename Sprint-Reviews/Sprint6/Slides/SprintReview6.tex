@@ -70,6 +70,11 @@
             \item Création de la partie administration
             \item Gestion des rôles
         \end{itemize}
+        \item \textbf{Sprint 5} :
+        \begin{itemize}
+            \item Intégration du rôle de superviseur.
+            \item Gestion du processus d'inscription pour un étudiant.
+        \end{itemize}
             
     \end{itemize}
 \end{frame}
@@ -80,38 +85,46 @@
     
     \includegraphics[width=1.1\textwidth]{burndownChart.png} 
 \end{frame}
+\subsection{Éléments faits}
+\begin{frame}{Éléments faits}
+   \begin{enumerate}
+    \item Mettre le site web en ligne : dockerisation
+    \item Ajout de la gestion des notes
+    \item Gestion manuel de la vie d'un travail pour un professeur en charge d'un cours.
+   \end{enumerate}
 
-\subsection{Gestion du processus d'inscription}
-\begin{frame}{Gestion des cours}
-    \begin{columns}
-        \begin{column}{0.5\textwidth}
-            \begin{enumerate}
-                \item Possibilité d'inscription
-                \item Possibilité de voir ces cours
-            \end{enumerate}
-        \end{column}
-        \begin{column}{0.5\textwidth}
-            \includegraphics[width=\textwidth]{Gestion cours.png}
-        \end{column}
-    \end{columns}
 \end{frame}
 % Yassine modifie me truc
-\subsection{Modification graphiques}
+\section{Modifications}
 \subsection{Modification de la BD}
 \begin{frame}{Modification de la BD}
     \begin{enumerate}
-        \item Intégration du rôle de superviseur.
-        \item Un sujet relié vers un étudiant
+        \item Ajout du système de note.
         \begin{itemize}
-            \item Possibilité d'un sujet par cours.
+            \item Une note est associée à un travail.
+            \item Une note globale est associée à un cours donc, au sujet.
         \end{itemize}
     \end{enumerate}
 \end{frame}
-\begin{frame}{Gestion des cours : illustration}
+\section{Scénarios}
+\begin{frame}{Scénarios: illustration}
     \centering % Centrer le contenu
 \vfill % Remplir l'espace vertical pour centrer verticalement
 \textbf{\Large Démonstration} % Texte en gras et en grande taille
 \vfill %
+\end{frame}
+\section{Travaux futurs et possibilité d'amélioration}
+\begin{frame}{Travaux futurs et possibilité d'amélioration}
+    \begin{itemize}
+        \item Automatisation complète de la vie d'un travail.
+        \begin{itemize}
+            \item Utilisation d'un serveur redis pour la gestion des tâches asynchrones.
+            \item Complémentarité avec celery.
+            \item Possbilité de lancer des tâches en arrière plan en dehors du flux principal.
+        \end{itemize}
+        \item Ajout de nouveaux cours pour avoir une vue plus gobale des différents travaux à réaliser
+    \end{itemize}
+    
 \end{frame}
 
 \end{document}
