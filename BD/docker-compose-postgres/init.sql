@@ -12,10 +12,10 @@ INSERT INTO test (name, archived)
 */
 
 -- lines to drop all tables
-
+/*
 drop schema public cascade;
 create schema public;
-
+*/
 
 -- create tables
 CREATE TABLE Personne(
