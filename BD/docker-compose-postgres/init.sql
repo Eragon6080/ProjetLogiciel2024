@@ -12,10 +12,9 @@ INSERT INTO test (name, archived)
 */
 
 -- lines to drop all tables
-/*
+
 drop schema public cascade;
 create schema public;
-*/
 
 -- create tables
 CREATE TABLE Personne(
@@ -207,7 +206,7 @@ BEGIN
 
     IF nbPersonneAffecte = 0 THEN
         -- RAISE NOTICE '%', nbPersonneAffecte; Cette ligne permet d'afficher des informations à la console
-        UPDATE Sujet SET estreserve = TRUE WHERE idSujet = NEW.idSujet;        
+        UPDATE Sujet SET estreserve = TRUE WHERE idSujet = NEW.idSujet;
         RETURN NEW;
     END IF;
     RETURN NEW;
@@ -308,7 +307,7 @@ INSERT INTO SelectionSujet (idSujet, idEtudiant, is_involved)
   VALUES
   (2,2, TRUE),
   (1,1, TRUE);
-  
+
 INSERT INTO EtapeUe (idEtape, idUe, etapeCourante)
   VALUES (1, 'INFOB331', TRUE),
         (2, 'INFOMA451', TRUE),
@@ -320,7 +319,7 @@ VALUES ('file_path', 1, 1, TRUE, 15, FALSE),
         ('file_path', 2, 2, TRUE, 17, FALSE),
         ('file_path', 3, 1, TRUE, 14, FALSE),
         ('file_path', 4, 2, TRUE, 16, FALSE);
-        
+
 
 alter table Cours ADD FOREIGN KEY (idetudiant) REFERENCES Etudiant(idetudiant);
 
@@ -343,7 +342,7 @@ BEGIN
     SELECT COALESCE(SUM(FichierDelivrable.note) / NULLIF(COUNT(FichierDelivrable.note), 0), 0)
     FROM FichierDelivrable
     INNER JOIN Delivrable ON FichierDelivrable.iddelivrable = Delivrable.iddelivrable
-    INNER JOIN SelectionSujet ON Delivrable.idetudiant = SelectionSujet.idetudiant
+    INNER JOIN SelectionSujet ON FichierDelivrable.idetudiant = SelectionSujet.idetudiant
     WHERE SelectionSujet.idsujet = NEW.idsujet
   )
   WHERE idsujet = NEW.idsujet;
