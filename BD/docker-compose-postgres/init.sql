@@ -12,10 +12,10 @@ INSERT INTO test (name, archived)
 */
 
 -- lines to drop all tables
-/*
+
 drop schema public cascade;
 create schema public;
-*/
+
 
 -- create tables
 CREATE TABLE Personne(
@@ -84,7 +84,6 @@ CREATE TABLE Sujet(
   estReserve BOOLEAN NOT NULL DEFAULT FALSE,
   fichier TEXT, --  localisation du fichier de la proposition de sujet
   nbPersonnes INT NOT NULL DEFAULT 1,
-  mark INT NOT NULL DEFAULT 0 check(mark >= 0 and mark <= 20),
   idPeriode INT NOT NULL DEFAULT 1,
   idProfesseur INT,
   idSuperviseur INT,
@@ -250,28 +249,6 @@ CREATE TRIGGER set_is_involved
   FOR EACH ROW
   EXECUTE FUNCTION set_is_involved();
 
--- Create a function that updates the mark column in the Sujet table
-CREATE OR REPLACE FUNCTION update_sujet_mark() RETURNS TRIGGER AS $$
-BEGIN
-  UPDATE Sujet
-  SET mark = (
-    SELECT COALESCE(SUM(FichierDelivrable.note) / NULLIF(COUNT(FichierDelivrable.note), 0), 0)
-    FROM FichierDelivrable
-    INNER JOIN Delivrable ON FichierDelivrable.iddelivrable = Delivrable.iddelivrable
-    INNER JOIN SelectionSujet ON Delivrable.idetudiant = SelectionSujet.idetudiant
-    WHERE SelectionSujet.idsujet = NEW.idsujet
-  )
-  WHERE idsujet = NEW.idsujet;
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
--- Create a trigger that calls the update_sujet_mark function
--- after a row in the FichierDelivrable table is inserted or updated
-CREATE TRIGGER update_sujet_mark
-AFTER INSERT OR UPDATE ON FichierDelivrable
-FOR EACH ROW EXECUTE PROCEDURE update_sujet_mark();
-
 -- add insertion data
 INSERT INTO Personne (nom, prenom, mail,password, role)
   VALUES ('Doe', 'John', 'john.doe@gmail.com', 'pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=',
@@ -353,3 +330,29 @@ UPDATE COURS SET idEtudiant = 2 where idCours = 2;
 alter table Sujet ADD FOREIGN KEY (idSuperviseur) REFERENCES Superviseur(idSuperviseur);
 alter table Sujet ADD FOREIGN KEY (idue) REFERENCES UE(idue);
 ALTER TABLE Sujet ADD COLUMN mark INT DEFAULT 0;
+
+ALTER TABLE FichierDelivrable
+ADD COLUMN idSujet INT,
+ADD FOREIGN KEY (idSujet) REFERENCES Sujet(idSujet);
+
+-- Create a function that updates the mark column in the Sujet table
+CREATE OR REPLACE FUNCTION update_sujet_mark() RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE Sujet
+  SET mark = (
+    SELECT COALESCE(SUM(FichierDelivrable.note) / NULLIF(COUNT(FichierDelivrable.note), 0), 0)
+    FROM FichierDelivrable
+    INNER JOIN Delivrable ON FichierDelivrable.iddelivrable = Delivrable.iddelivrable
+    INNER JOIN SelectionSujet ON Delivrable.idetudiant = SelectionSujet.idetudiant
+    WHERE SelectionSujet.idsujet = NEW.idsujet
+  )
+  WHERE idsujet = NEW.idsujet;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Create a trigger that calls the update_sujet_mark function
+-- after a row in the FichierDelivrable table is inserted or updated
+CREATE TRIGGER update_sujet_mark
+AFTER INSERT OR UPDATE ON FichierDelivrable
+FOR EACH ROW EXECUTE PROCEDURE update_sujet_mark();
