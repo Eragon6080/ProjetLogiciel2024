@@ -144,6 +144,12 @@ CREATE TABLE EtapeUe(
   FOREIGN KEY (idUe) REFERENCES UE(idUe)
 );
 
+alter table Sujet ADD FOREIGN KEY (idSuperviseur) REFERENCES Superviseur(idSuperviseur);
+alter table Sujet ADD FOREIGN KEY (idue) REFERENCES UE(idue);
+ALTER TABLE Sujet ADD COLUMN mark INT DEFAULT 0;
+alter table Cours ADD FOREIGN KEY (idetudiant) REFERENCES Etudiant(idetudiant);
+ALTER TABLE FichierDelivrable ADD COLUMN idSujet INT,
+ADD FOREIGN KEY (idSujet) REFERENCES Sujet(idSujet);
 
 -- create a function
 -- first trigger
@@ -248,6 +254,28 @@ CREATE TRIGGER set_is_involved
   FOR EACH ROW
   EXECUTE FUNCTION set_is_involved();
 
+-- Create a function that updates the mark column in the Sujet table
+CREATE OR REPLACE FUNCTION update_sujet_mark() RETURNS TRIGGER AS $$
+BEGIN
+  UPDATE Sujet
+  SET mark = (
+    SELECT COALESCE(SUM(FichierDelivrable.note) / NULLIF(COUNT(FichierDelivrable.note), 0), 0)
+    FROM FichierDelivrable
+    INNER JOIN Delivrable ON FichierDelivrable.iddelivrable = Delivrable.iddelivrable
+    INNER JOIN SelectionSujet ON FichierDelivrable.idetudiant = SelectionSujet.idetudiant
+    WHERE SelectionSujet.idsujet = NEW.idsujet
+  )
+  WHERE idsujet = NEW.idsujet;
+  RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+-- Create a trigger that calls the update_sujet_mark function
+-- after a row in the FichierDelivrable table is inserted or updated
+CREATE TRIGGER update_sujet_mark
+AFTER INSERT OR UPDATE ON FichierDelivrable
+FOR EACH ROW EXECUTE PROCEDURE update_sujet_mark();
+
 -- add insertion data
 INSERT INTO Personne (nom, prenom, mail,password, role)
   VALUES ('Doe', 'John', 'john.doe@gmail.com', 'pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=',
@@ -255,13 +283,19 @@ INSERT INTO Personne (nom, prenom, mail,password, role)
         ('Doe', 'Jane', 'jane.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role" : ["etudiant"], "view": "etudiant"}'),
         ('Doe', 'Rick','ricke.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role" : ["etudiant"], "view": "etudiant"}'),
         ('Doe', 'Rudolf','rudolf.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role" : ["etudiant"], "view": "etudiant"}'),
-        ('Doe', 'Jack', 'jack.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role" : ["professeur","superviseur"], "view": "professeur"}'),
-        ('Doe', 'Jill', 'jill.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=',' {"role" : ["professeur"], "view": "professeur"}'),
-        ('Doe', 'James', 'james.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=', '{"role" : ["admin"], "view": "admin"}'),
-        ('Doe', 'Jenny', 'jenny.doe@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role": ["superviseur"], "view": "superviseur"}');
+        ('Roule','Pierre','pierre.roule@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role" : ["etudiant"], "view": "etudiant"}'),
+        ('Pims','Lu','lu.pims@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role" : ["etudiant"], "view": "etudiant"}'),
+
+        ('Andre', 'Maxiime', 'maxime.andre@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role" : ["professeur","superviseur"], "view": "professeur"}'),
+        ('Gaillard', 'Jean-Marc', 'jean-marc.gaillard@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=',' {"role" : ["professeur"], "view": "professeur"}'),
+        ('Deur', 'Alban', 'alban.deur@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=', '{"role" : ["admin"], "view": "admin"}'),
+        ('EnBasLesRein','Jean','enbaslesrein.jean@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role" : ["admin"], "view": "admin"}'),
+
+        ('Dubisy', 'Francine', 'dubisy.francine@gmail.com','pbkdf2_sha256$720000$tjC57NAqNFX9F7XCKvDqet$ymUne1VQexTF3EB/sqF+eqJSC8ZC4F9wgrSUblI9iPw=','{"role": ["superviseur"], "view": "superviseur"}');
 INSERT INTO Periode (annee)
   VALUES (EXTRACT(YEAR FROM TIMESTAMP '2023-01-01')),
-        (EXTRACT(YEAR FROM TIMESTAMP '2024-01-01'));
+        (EXTRACT(YEAR FROM TIMESTAMP '2024-01-01')),
+        (EXTRACT(YEAR FROM TIMESTAMP '2025-01-01'));
 
 INSERT INTO Delivrable (typeFichier)
   VALUES ('pdf'),
@@ -273,8 +307,12 @@ INSERT INTO Etape (dateDebut, dateFin, titre, description, idPeriode, idDelivrab
          ('2024-03-01','2024-04-01', 'Travail final', 'Rendre le travail final sous forme d un fichier pdf (max 150 pages)', 2, 2);
 
 INSERT INTO Professeur (specialite, idPersonne, idPeriode)
-  VALUES ('IA', 5, 1),
-        ('ML', 6, 2);
+  VALUES ('IA', 7, 1),
+        ('ML', 8, 2);
+INSERT INTO Superviseur (specialite, idPersonne)
+  VALUES
+  ('IA', 11),
+  ('ML', 7);
 
 INSERT INTO UE (idue,nom, idProf)
   VALUES ('INFOB331','Introduction à la démarche scientifique', 1),
@@ -284,19 +322,23 @@ INSERT INTO Cours (idUE, nom)
         ('INFOMA451', 'Mémoire');
 INSERT INTO Sujet (titre, descriptif, fichier, idPeriode, idProfesseur,estReserve,idSuperviseur,idUE,nbPersonnes)
     VALUES ('La reproduction des insectes', 'Les insectes sont des animaux ovipares', NULL, 1, NULL,FALSE,1,'INFOB331',1),
-          ('L IA', 'L intelligence artificelle est un système informatique capable d apprendre par lui-même', NULL, 2,1,TRUE,NULL,'INFOMA451',2);
+          ('L IA', 'L intelligence artificelle est un système informatique capable d apprendre par lui-même', NULL, 2,1,TRUE,NULL,'INFOMA451',2),
+          ('Les réseaux de neurones', 'Les réseaux de neurones sont des systèmes informatiques inspirés du cerveau humain', NULL, 2,2,FALSE,NULL,'INFOMA451',1),
+          ('Les annotations en Java', 'Les annotations en Java sont des outils puissants en Java notamment en Spring', NULL, 2,2,FALSE,NULL,'INFOB331',2),
+          ('Le langage C#', 'Le langage C# est un langage de programmation orienté objet', NULL, 2,NULL,FALSE,2,'INFOB331',3),
+          ('Les bases de données', 'Les bases de données sont des outils de stockage de données', NULL, 2,2,FALSE,NULL,'INFOMA451',1);
+
+
 INSERT INTO Etudiant (bloc, idPersonne)
   VALUES (1, 1 ),
-        (2, 2);
-INSERT INTO Etudiant(bloc, idPersonne)
-      VALUES  (3, 3),
-        (4, 4);
+        (2, 2),
+        (3, 3),
+        (4, 4),
+        (5,5),
+        (4,6);
 
 
-INSERT INTO Superviseur (specialite, idPersonne)
-  VALUES
-  ('IA', 8),
-  ('ML', 5);
+
 
 INSERT INTO Supervision (description, idSuperviseur, idUe)
   VALUES
@@ -321,37 +363,4 @@ VALUES ('file_path', 1, 1, TRUE, 15, FALSE),
         ('file_path', 4, 2, TRUE, 16, FALSE);
 
 
-alter table Cours ADD FOREIGN KEY (idetudiant) REFERENCES Etudiant(idetudiant);
 
-Update Cours Set idetudiant = 1 where idCours = 1;
-UPDATE COURS SET idEtudiant = 2 where idCours = 2;
-
-alter table Sujet ADD FOREIGN KEY (idSuperviseur) REFERENCES Superviseur(idSuperviseur);
-alter table Sujet ADD FOREIGN KEY (idue) REFERENCES UE(idue);
-ALTER TABLE Sujet ADD COLUMN mark INT DEFAULT 0;
-
-ALTER TABLE FichierDelivrable
-ADD COLUMN idSujet INT,
-ADD FOREIGN KEY (idSujet) REFERENCES Sujet(idSujet);
-
--- Create a function that updates the mark column in the Sujet table
-CREATE OR REPLACE FUNCTION update_sujet_mark() RETURNS TRIGGER AS $$
-BEGIN
-  UPDATE Sujet
-  SET mark = (
-    SELECT COALESCE(SUM(FichierDelivrable.note) / NULLIF(COUNT(FichierDelivrable.note), 0), 0)
-    FROM FichierDelivrable
-    INNER JOIN Delivrable ON FichierDelivrable.iddelivrable = Delivrable.iddelivrable
-    INNER JOIN SelectionSujet ON FichierDelivrable.idetudiant = SelectionSujet.idetudiant
-    WHERE SelectionSujet.idsujet = NEW.idsujet
-  )
-  WHERE idsujet = NEW.idsujet;
-  RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
--- Create a trigger that calls the update_sujet_mark function
--- after a row in the FichierDelivrable table is inserted or updated
-CREATE TRIGGER update_sujet_mark
-AFTER INSERT OR UPDATE ON FichierDelivrable
-FOR EACH ROW EXECUTE PROCEDURE update_sujet_mark();
